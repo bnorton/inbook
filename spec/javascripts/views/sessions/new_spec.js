@@ -80,6 +80,10 @@ describe("SessionsNewView", function() {
         expect(inbook.currentUser.get("name")).toEqual("John Doe 3");
       });
 
+      it("should be ready?", function() {
+        expect(inbook.currentUser.get("ready?")).toEqual(true);
+      });
+
       it("should navigate to the dashboard", function() {
         expect(inbook.utils.navigate).toHaveBeenCalledWith("/#!/dashboard");
       });

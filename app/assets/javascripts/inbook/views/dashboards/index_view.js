@@ -78,13 +78,18 @@ inbook.views.DashboardIndexView = (function() {
       var that = this,
         url = "/me/feed?limit=1000&access_token=" + inbook.currentUser.get("access_token");
 
-      inbook.bus.on("google:ready", function() {
+      if(inbook.currentUser.get("ready?")) {
         that.googleReady = true;
-      });
-
-      inbook.bus.on("fb:ready", function() {
         makeRequest(that, url);
-      });
+      } else {
+        inbook.bus.on("google:ready", function() {
+          that.googleReady = true;
+        });
+
+        inbook.bus.on("fb:ready", function() {
+          makeRequest(that, url);
+        });
+      }
 
       that.model.on("change:counts", that.updateCounts);
       that.model.on("change:counts:complete", that.renderCharts);
