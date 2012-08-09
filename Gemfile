@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails'
 gem 'mysql2'
+gem 'pg'
 gem 'redis-rails'
 gem 'sidekiq'
 gem 'koala'
