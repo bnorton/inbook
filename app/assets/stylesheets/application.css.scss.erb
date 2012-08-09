@@ -1,0 +1,117 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require dashboards
+ *= require_tree .
+ */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+body {
+  background-color: whiteSmoke;
+}
+
+h4, h2, p {
+  font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+
+.spinner {
+  background-image: url(<%= asset_path 'spinner.gif' %>);
+  height: 32px;
+  width: 32px;
+  margin: 40px auto;
+  padding: 0;
+
+  &.white {
+    background-image: url(<%= asset_path 'spinner_white.gif' %>);
+  }
+}
+
+.inner {
+  margin-top: 60px;
+}
+
+.clear {
+  clear: both;
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+#nav {
+  width: 100%;
+  position: fixed;
+  z-index: 9999999;
+  top: 0;
+  height: 40px;
+  background: #555;
+  background-image: -webkit-linear-gradient(#666,#333 50px);
+  background-image: -moz-linear-gradient(#666,#333 50px);
+  box-shadow: 0 0 15px #333;
+
+  .container {
+    max-width: 960px;
+    min-width: 800px;
+    width: 100%;
+  }
+
+  #logo {
+    padding: 8px 0 0 8px;
+    font-weight: 300;
+    float: left;
+    color: #f9f9f9;
+
+    a {
+      margin: -2px 0 0 0;
+      font-size: 24px;
+    }
+  }
+
+  .link {
+    text-decoration: none;
+    color: #ededed;
+    float: left;
+  }
+
+  .right {
+    a {
+      float: left;
+      color: white;
+      margin-top: 11px;
+      margin-right: 15px;
+      letter-spacing: .5px;
+      text-decoration: none;
+    }
+  }
+}
+
+.container {
+  width: 960px;
+  margin: auto;
+}
+

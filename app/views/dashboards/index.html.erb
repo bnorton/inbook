@@ -1,0 +1,14 @@
+<div id="login"></div>
+<div id="dashboard"></div>
+<script type="text/javascript">
+  $(function() {
+    if(inbook.currentUser.id) {
+      if(!/dashboard/.test(window.location.href)) {
+        Backbone.history.navigate("/#!/dashboard", {trigger: true});
+      }
+      new inbook.views.SessionsNewView({el: "#login", user: inbook.currentUser});
+    } else {
+      new inbook.views.SessionsNewView({el: "#login"});
+    }
+  });
+</script>

@@ -1,0 +1,55 @@
+<div class="inner"></div>
+<div class="container">
+  <div id="user">
+    <div id="info">
+      <img src="https://graph.facebook.com/<%= inbook.currentUser.get("graph_id") %>/picture?type=large&access_token=<%= inbook.currentUser.get("access_token") %>" />
+      <h4 class="name"><%= inbook.currentUser.get("name") %></h4>
+      <h4 class="since">Since: <%= I18n.l("date.formats.human", inbook.currentUser.get("created_time")) %></h4>
+    </div>
+  </div>
+
+  <div id="more-info" class="right">
+    <h2><%= I18n.t("dashboards.index.more.title") %></h2>
+    <h4><%= I18n.t("dashboards.index.more.description") %></h4>
+  </div>
+  <div class="clear"></div>
+
+  <div id="stats">
+    <div class="stat-outer">
+      <div id="posts" class="stat posts">
+        <h4 class="count">0</h4>
+        <h2><%= I18n.t("dashboards.index.posts.title") %></h2>
+        <p><%= I18n.t("dashboards.index.posts.description") %></p>
+      </div>
+      <div id="likes" class="stat likes">
+        <h4 class="count">0</h4>
+        <h2><%= I18n.t("dashboards.index.likes.title") %></h2>
+        <p><%= I18n.t("dashboards.index.likes.description") %></p>
+      </div>
+      <div id="comments" class="stat comments">
+        <h4 class="count">0</h4>
+        <h2><%= I18n.t("dashboards.index.comments.title") %></h2>
+        <p><%= I18n.t("dashboards.index.comments.description") %></p>
+      </div>
+    </div>
+    <div id="people">
+      <div id="types" class="person">
+        <h2><%= I18n.t("dashboards.index.types.title") %></h2>
+        <p><%= I18n.t("dashboards.index.types.description") %></p>
+        <div class="chart" style="width: 620px; height: 425px;"></div>
+      </div>
+      <div class="clear"></div>
+      <div id="from" class="person">
+        <h2><%= I18n.t("dashboards.index.from.title") %></h2>
+        <p><%= I18n.t("dashboards.index.from.description") %></p>
+        <div class="chart" style="width: 520px; height: 425px;"></div>
+      </div>
+      <div class="clear"></div>
+      <div id="to" class="person">
+        <h2><%= I18n.t("dashboards.index.to.title") %></h2>
+        <p><%= I18n.t("dashboards.index.to.description") %></p>
+        <div class="chart" style="width: 520px; height: 425px;"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Personal Facebook Analytics | anabook.me</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= favicon_link_tag (asset_path "favicon.ico") %>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<script type="text/javascript">
+  <% user = current_user %>
+  inbook.currentUser = new inbook.models.User(<%= raw (user ? UserPresenter.new(user) : {}).to_json %>);
+
+  inbook.settings.FBDefaults = {
+    appId      : "<%= Facebook.id %>",
+    status     : true,
+    cookie     : true,
+    oauth      : true,
+    xfbml      : true
+  };
+
+  $(function() {
+    new inbook.routers.ApplicationRouter();
+    Backbone.history.start();
+  });
+
+  google.load("visualization", "1", {packages:["corechart"]});
+  google.setOnLoadCallback(function() {
+    inbook.bus.trigger("google:ready");
+  });
+</script>
+
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init(inbook.settings.FBDefaults);
+
+    inbook.bus.trigger("fb:ready");
+  };
+
+  (function(d){
+    var js, id = "facebook-jssdk"; if (d.getElementById(id)) {return;}
+    js = d.createElement("script"); js.id = id; js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    d.getElementsByTagName("head")[0].appendChild(js);
+  }(document));
+</script>
+
+<div id="nav">
+  <div class="container nav">
+    <div class="right">
+      <a class="link about" href="/#!/about"><%= I18n.t("navigation.about") %></a>
+      <a class="link dashboard" href="/#!/dashboard"><%= I18n.t("navigation.dashboard") %></a>
+      <a class="link more" href="/#!/more"><%= I18n.t("navigation.more") %></a>
+    </div>
+    <div id="logo">
+      <div id="bars">
+        <div class="bar red"></div>
+        <div class="bar green"></div>
+        <div class="bar orange"></div>
+      </div>
+      <a class="link" href="/#!"><%= I18n.t("navigation.ana_book") %></a>
+    </div>
+  </div>
+</div>
+
+<%= yield %>
+
+</body>
+</html>
