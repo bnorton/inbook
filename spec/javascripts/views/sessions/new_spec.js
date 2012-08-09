@@ -70,9 +70,14 @@ describe("SessionsNewView", function() {
           status: 200,
           responseText: JSON.stringify({
             id: 3,
-            name: "John Doe"
+            name: "John Doe 3"
           })
         });
+      });
+
+      it("should set the current user", function() {
+        expect(inbook.currentUser.id).toEqual(3);
+        expect(inbook.currentUser.get("name")).toEqual("John Doe 3");
       });
 
       it("should navigate to the dashboard", function() {

@@ -39,6 +39,7 @@ inbook.views.SessionsNewView = (function() {
 
       that.user.save({}).
         success(function() {
+          inbook.currentUser = that.user;
           inbook.utils.navigate("/#!/dashboard");
 
           that.$el.html("");
