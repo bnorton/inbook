@@ -40,7 +40,7 @@ inbook.agents.SessionsAgent = (function(user) {
       var attrs = {};
       attrs.graph_id = response.id;
 
-      _(["name", "username", "birthday", "email", "created_time"]).each(function(attr) {
+      _(["name", "username", "birthday", "email", "updated_time"]).each(function(attr) {
         attrs[attr] = response[attr];
       });
 

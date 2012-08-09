@@ -68,12 +68,12 @@ describe User do
       let(:options) do
         {
           "access_token" => "newToken",
-          "graph_id" => 321,
+          "graph_id" => "321",
           "name" => "John",
           "username" => "johnny",
           "email" => "john@example.com",
           "birthday" => "today",
-          "created_time" => Time.now
+          "updated_time" => Time.now
         }
       end
 

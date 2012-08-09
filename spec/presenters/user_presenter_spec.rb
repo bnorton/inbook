@@ -13,7 +13,7 @@ describe UserPresenter do
         "access_token" => user.access_token,
         "name" => user.name,
         "username" => user.username,
-        "created_time" => user.created_time
+        "updated_time" => user.updated_time
       }
     end
   end

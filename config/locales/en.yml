@@ -32,11 +32,12 @@ en:
       more:
         title: "Want more?"
         description: "For a dashboard that tracks metrics over time see our plans..."
+      last_update: "Last Post: "
   navigation:
     about: "About"
     dashboard: "Dashboard"
     more: "Track over Time?"
-    ana_book: "AnaBook"
+    ana_book: "Facebook Analytics"
   date:
     formats:
       short: "%-m/%-d/%y"

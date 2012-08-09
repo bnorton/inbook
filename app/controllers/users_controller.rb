@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def create
-    new_user = User.create(params.slice(:access_token, :graph_id, :name, :username, :email, :birthday, :created_time))
+    new_user = User.create(params.slice(:access_token, :graph_id, :name, :username, :email, :birthday, :updated_time))
     user, status = new_user.persisted? ? [new_user, 201] : [User.where(:graph_id => params[:graph_id]).first, 200]
 
     set_cookie(user)

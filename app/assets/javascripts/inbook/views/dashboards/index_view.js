@@ -90,10 +90,6 @@ inbook.views.DashboardIndexView = (function() {
       that.model.on("change:counts:complete", that.renderCharts);
 
       that.render();
-
-      that.$posts = that.$el.find("#posts .count");
-      that.$comments = that.$el.find("#comments .count");
-      that.$likes = that.$el.find("#likes .count");
     },
 
     render: function() {
@@ -101,9 +97,13 @@ inbook.views.DashboardIndexView = (function() {
     },
 
     updateCounts: function() {
-      this.$posts.html(this.model.get("posts").count);
-      this.$comments.html(this.model.get("comments").count);
-      this.$likes.html(this.model.get("likes").count);
+      var $posts = this.$el.find("#posts .count"),
+          $comments = this.$el.find("#comments .count"),
+          $likes = this.$el.find("#likes .count");
+
+      $posts.html(this.model.get("posts").count);
+      $comments.html(this.model.get("comments").count);
+      $likes.html(this.model.get("likes").count);
     },
 
     renderCharts: function() {
@@ -119,7 +119,7 @@ inbook.views.DashboardIndexView = (function() {
         array = _(_(types).keys()).map(function(type) {
           return [type, types[type]];
         }),
-        options = { colors: ["#FB2A04", "#FB8304", "#08789D", "#03B840"], backgroundColor: "grey" };
+        options = { colors: ["#FB2A04", "#FB8304", "#08789D", "#03B840"], backgroundColor: "white" };
 
     array.unshift(["Post Type", "Count"]);
 
@@ -133,7 +133,7 @@ inbook.views.DashboardIndexView = (function() {
         array = _(_(items).keys()).map(function(from) {
           return [items[from].name, items[from].count];
         }),
-        options = {backgroundColor: "grey"};
+        options = { colors: ["#08789D"], backgroundColor: "white"};
 
     array = _(_(_(array).sortBy(function(item) {
       return item[1];

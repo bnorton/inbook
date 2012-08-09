@@ -4,7 +4,7 @@ describe("DashboardsIndexView", function() {
   beforeEach(function() {
     api = undefined;
 
-    inbook.currentUser = new inbook.models.User({graph_id: 123, access_token: "abc123", created_time: new Date()});
+    inbook.currentUser = new inbook.models.User({graph_id: 123, access_token: "abc123", updated_time: new Date()});
 
     spyOn(FB, "api").andCallFake(function(path, callback) {
       api = {

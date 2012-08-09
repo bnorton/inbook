@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :access_token, :graph_id, :name, :username, :email, :birthday, :created_time
+  attr_accessible :access_token, :graph_id, :name, :username, :email, :birthday, :updated_time
 
   validates :graph_id, :access_token, :presence => true
   validate :unique_graph_id, :on => :create

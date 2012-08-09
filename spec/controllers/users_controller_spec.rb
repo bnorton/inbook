@@ -5,13 +5,13 @@ describe UsersController do
     describe ".json" do
       let(:defaults) do
         {
-          graph_id: 543,
+          graph_id: '543',
           access_token: 'abc123',
           name: 'John Doe',
           username: 'johnny',
           email: 'john@example.com',
           birthday: '01/01/11',
-          created_time: Time.now
+          updated_time: Time.now
         }
       end
 
@@ -47,13 +47,13 @@ describe UsersController do
           make_request
 
           user = User.last
-          user.graph_id.should == 543
+          user.graph_id.should == "543"
           user.access_token.should == "abc123"
           user.name.should == "John Doe"
           user.username.should == "johnny"
           user.email.should == "john@example.com"
           user.birthday.should == "01/01/11"
-          user.created_time.should == Time.now.to_s
+          user.updated_time.should == Time.now.to_s
         end
       end
 
