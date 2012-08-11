@@ -1,7 +1,6 @@
 require "spec_helper"
 
 describe UserPresenter do
-
   describe "#as_json" do
     let(:user) { FactoryGirl.create(:user) }
     subject { JSON.parse(UserPresenter.new(user).to_json) }

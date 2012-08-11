@@ -1,9 +1,10 @@
 inbook.views.SessionsNewView = (function() {
-  return Backbone.View.extend({
-    template: JST["inbook/templates/sessions/new"],
+  var template = JST["inbook/templates/sessions/new"];
 
+  return Backbone.View.extend({
     events: {
-      "submit form": "submit"
+      "submit #login form": "submit",
+      "click #password input[type='submit']": "submitPassword"
     },
 
     initialize: function() {
@@ -21,15 +22,13 @@ inbook.views.SessionsNewView = (function() {
     },
 
     render: function() {
-      this.$el.html(this.template());
+      this.$el.html(template());
 
       return this;
     },
 
     submit: function(e) {
-      if(e) {
-        stopDefault(e);
-      }
+      if(e) { stopDefault(e); }
 
       this.agent.facebookLogin();
     },
@@ -37,20 +36,53 @@ inbook.views.SessionsNewView = (function() {
     saveUser: function() {
       var that = this;
 
-      that.user.save({}).
-        success(function() {
-          that.user.set("ready?", true, {silent: true});
+      that.user.save({}, {
+        success: function() {
           inbook.currentUser = that.user;
 
-          inbook.utils.navigate("/#!/dashboard");
+          success(that);
+        }, error: function(model, response) {
+          error(that, response)
+        }
+      });
+    },
 
-          that.$el.html("");
-        });
+    submitPassword: function(e) {
+      var that = this;
+
+      stopDefault(e);
+
+      that.user.save({
+        password: that.$el.find("#password input[type='text']").val()
+      }, {
+        success: function() {
+          success(that);
+        }
+      })
     }
   });
 
   function stopDefault(event) {
     event.stopPropagation();
     event.preventDefault();
+  }
+
+  function success(view) {
+    inbook.utils.navigate("/#!/dashboard");
+
+    view.$el.html("");
+  }
+
+  function error(view, r) {
+    if(r.status === 401) {
+      view.user.set(
+        JSON.parse(r.responseText),
+        {silent: true}
+      );
+
+      inbook.currentUser = view.user;
+
+      view.$el.find("#password").removeClass("hidden");
+    }
   }
 }());

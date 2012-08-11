@@ -6,4 +6,4 @@ require File.expand_path('../config/application', __FILE__)
 
 Inbook::Application.load_tasks
 
-task :default => [:spec]
+task default: [:spec]

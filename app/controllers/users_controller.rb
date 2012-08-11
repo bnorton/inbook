@@ -1,38 +1,56 @@
 class UsersController < ApplicationController
-  def create
-    new_user = User.create(params.slice(:access_token, :graph_id, :name, :username, :email, :birthday, :updated_time))
-    user, status = new_user.persisted? ? [new_user, 201] : [User.where(:graph_id => params[:graph_id]).first, 200]
+  before_filter :load_user, only: [:update, :destroy]
 
-    set_cookie(user)
+  def create
+    @user = User.create(
+      params.slice(:graph_id, :name, :username, :email, :birthday, :updated_time)
+    )
 
     respond_to {|type|
       type.json {
+        status, user = @user.persisted? ? (set_cookie && [201, @user]) : [401, User.find_by_graph_id(params[:graph_id])]
+
         render json: UserPresenter.new(user), status: status
       }
     }
   end
 
   def update
-    user = current_user
-
     respond_to {|type|
       type.json {
-        if user && user.id == params[:id].to_i && user.update_attributes(params.slice(:access_token))
-          status = 200
-        else
-          status = 404
-        end
+        status = (@user && @user.update_attributes(params.slice(:access_token)) && 200) || 404
 
-        render json: UserPresenter.new(user), status: status
+        user = @user ? set_cookie && UserPresenter.new(@user) : {}
+
+        render json: user, status: status
       }
     }
+  end
 
+  def destroy
+    respond_to do |type|
+      type.json {
+        user, status = @user ? [UserPresenter.new(@user), remove_cookie && 200] : [{}, 404]
+
+        render json: user, status: status
+      }
+    end
   end
 
   private
 
-  def set_cookie(user)
-    cookies[:id] = user.id
-    cookies[:token] = user.token
+  def load_user
+    @user = current_user
+  end
+
+  def set_cookie
+    cookies[:id] = @user.id
+    cookies[:token] = @user.token
+  end
+
+  def remove_cookie
+    cookies[:id] = nil
+    cookies[:token] = nil
+    true
   end
 end

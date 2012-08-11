@@ -4,7 +4,16 @@
     <h2><%= I18n.t("sessions.new.title") %></h2>
   </div>
 
-  <form>
-    <input type="submit" value="<%= I18n.t("buttons.auth_with_facebook")%>" />
-  </form>
+  <div id="login">
+    <form>
+      <input type="submit" value="<%= I18n.t("buttons.auth_with_facebook")%>" />
+    </form>
+  </div>
+
+  <div id="password" class="hidden">
+    <form>
+      <input type="text" />
+      <input type="submit" value="<%= I18n.t("buttons.submit")%>" />
+    </form>
+  </div>
 </div>

@@ -30,5 +30,13 @@ describe ExtendAccessToken do
 
       user.reload.access_token.should == "newToken|321"
     end
+
+    it "should save the expires time" do
+      Timecop.freeze(DateTime.now) do
+        perform
+
+        user.reload.access_token_expires.should == 2.months.from_now
+      end
+    end
   end
 end

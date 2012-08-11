@@ -1,6 +1,12 @@
 en:
   buttons:
     auth_with_facebook: "Login with Facebook"
+    submit: "Submit"
+  users:
+    navigation:
+      account: "Account"
+      settings: "Settings"
+      logout: "Logout"
   sessions:
     new:
       welcome: "Welcome to InBook"

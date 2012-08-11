@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Personal Facebook Analytics</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag    "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= favicon_link_tag (asset_path "favicon.ico") %>
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -29,6 +29,7 @@
 
   google.load("visualization", "1", {packages:["corechart"]});
   google.setOnLoadCallback(function() {
+    inbook.settings._ready.google = true;
     inbook.bus.trigger("google:ready");
   });
 </script>
@@ -38,6 +39,7 @@
   window.fbAsyncInit = function() {
     FB.init(inbook.settings.FBDefaults);
 
+    inbook.settings._ready.facebook = true;
     inbook.bus.trigger("fb:ready");
   };
 
@@ -52,9 +54,7 @@
 <div id="nav">
   <div class="container nav">
     <div class="right">
-      <a class="link about" href="/#!/about"><%= I18n.t("navigation.about") %></a>
-      <a class="link dashboard" href="/#!/dashboard"><%= I18n.t("navigation.dashboard") %></a>
-      <a class="link more" href="/#!/more"><%= I18n.t("navigation.more") %></a>
+      <div id="user-nav"></div>
     </div>
     <div id="logo">
       <div id="bars">

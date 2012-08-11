@@ -13,13 +13,13 @@ if defined?(RSpec)
 
   remove_task :spec
   desc "Run all specs in spec directory (excluding plugin specs)"
-  RSpec::Core::RakeTask.new(:spec => "db:test:prepare") do |t|
+  RSpec::Core::RakeTask.new(spec: "db:test:prepare") do |t|
     t.rspec_opts = "--tag ~type:external"
   end
 
   namespace :spec do
     desc "Run all external specs"
-    RSpec::Core::RakeTask.new(:externals => "db:test:prepare") do |t|
+    RSpec::Core::RakeTask.new(externals: "db:test:prepare") do |t|
       t.rspec_opts = "--tag type:external"
     end
   end

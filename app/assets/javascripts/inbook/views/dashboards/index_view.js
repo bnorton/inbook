@@ -1,7 +1,8 @@
 inbook.views.DashboardIndexView = (function() {
-  var makeRequest = function(view, url) {
+  var template = JST["inbook/templates/dashboards/index"],
+      makeRequest = function(view, url) {
     var posts = {
-        count: 0 ,
+        count: 0,
         from: {},
         to: {},
         type: {},
@@ -64,21 +65,18 @@ inbook.views.DashboardIndexView = (function() {
 
         view.model.trigger("change:counts");
       });
-
       view.model.trigger("change:counts:complete");
     });
   };
 
   return Backbone.View.extend({
-    template: JST["inbook/templates/dashboards/index"],
-
     initialize: function() {
       _.bindAll(this, "render", "updateCounts", "renderCharts");
 
       var that = this,
-        url = "/me/feed?limit=1000&access_token=" + inbook.currentUser.get("access_token");
+          url = "/me/feed?limit=1000&access_token=" + inbook.currentUser.get("access_token");
 
-      if(inbook.currentUser.get("ready?")) {
+      if(inbook.settings.ready()) {
         that.googleReady = true;
         makeRequest(that, url);
       } else {
@@ -98,7 +96,7 @@ inbook.views.DashboardIndexView = (function() {
     },
 
     render: function() {
-      this.$el.html(this.template());
+      this.$el.html(template({user: inbook.currentUser}));
     },
 
     updateCounts: function() {
@@ -121,10 +119,10 @@ inbook.views.DashboardIndexView = (function() {
 
   function renderTypesChart($el, model) {
     var types = model.get("posts").type,
+        options = { colors: ["#FB2A04", "#FB8304", "#08789D", "#03B840"], backgroundColor: "white" },
         array = _(_(types).keys()).map(function(type) {
           return [type, types[type]];
-        }),
-        options = { colors: ["#FB2A04", "#FB8304", "#08789D", "#03B840"], backgroundColor: "white" };
+        });
 
     array.unshift(["Post Type", "Count"]);
 
@@ -134,11 +132,11 @@ inbook.views.DashboardIndexView = (function() {
 
   function renderItemsChart($el, model, key) {
     var graph_id = inbook.currentUser.get("graph_id"),
+        options = { colors: ["#08789D"], backgroundColor: "white"},
         items = model.get("posts")[key],
         array = _(_(items).keys()).map(function(from) {
           return [items[from].name, items[from].count];
-        }),
-        options = { colors: ["#08789D"], backgroundColor: "white"};
+        });
 
     array = _(_(_(array).sortBy(function(item) {
       return item[1];

@@ -1,22 +1,41 @@
 class User < ActiveRecord::Base
-  attr_accessible :access_token, :graph_id, :name, :username, :email, :birthday, :updated_time
+  EIGHT = 36**8
 
-  validates :graph_id, :access_token, :presence => true
-  validate :unique_graph_id, :on => :create
+  attr_accessible :access_token, :access_token_expires, :graph_id, :name, :username, :email, :birthday, :updated_time
 
-  before_create :set_token
+  validates :graph_id, presence: true
+  validate :unique_graph_id, on: :create
+
+  before_create :set_token_and_password
+  before_create :set_access_token_expires
+
   after_create :extend_token
+
+  def valid_password?(passworp=nil)
+    !!passworp && password == Digest::SHA2.hexdigest(passworp + salt)
+  end
+
+  def password=(passworp)
+    self.salt = Digest::SHA2.hexdigest(Time.now.to_f.to_s)
+    write_attribute(:password, Digest::SHA2.hexdigest(passworp + salt))
+  end
 
   private
 
   def unique_graph_id
-    if self.class.where(:graph_id => graph_id).any?
+    if self.class.where(graph_id: graph_id).any?
       errors.add(:graph_id, :taken)
     end
   end
 
-  def set_token
+  def set_token_and_password
+    @new_password = rand(EIGHT).to_s(36)
+    self.password = @new_password
     self.token = Digest::SHA2.hexdigest rand(1_000_000).to_s
+  end
+
+  def set_access_token_expires
+    self.access_token_expires = 2.hours.from_now
   end
 
   def extend_token

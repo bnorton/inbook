@@ -10,7 +10,9 @@ inbook = {
   utils: {},
   routers: {},
   settings: {
-    permissions: {scope: "read_stream, user_checkins, user_likes, user_photos"}
+    permissions: {scope: "read_stream, read_requests, user_status, user_likes, user_photos, user_videos, email"},
+    _ready: {},
+    ready: function() { return inbook.settings._ready.facebook && inbook.settings._ready.google; }
   }
 };
 

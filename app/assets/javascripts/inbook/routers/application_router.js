@@ -6,7 +6,8 @@ inbook.routers.ApplicationRouter = (function() {
     },
 
     dashboard: function() {
-      dash = new inbook.views.DashboardIndexView({el: "#dashboard", model: new Backbone.Model()});
+      new inbook.views.DashboardIndexView({el: "#dashboard", model: new Backbone.Model()});
+      new inbook.views.UsersNavigationView({el: "#user-nav", model: inbook.currentUser});
     }
   })
 }());

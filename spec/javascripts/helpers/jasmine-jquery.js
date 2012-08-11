@@ -220,7 +220,19 @@ jasmine.JQuery.matchersClass = {};
     },
 
     toExist: function() {
-      return $(document).find(this.actual).length
+      /**
+       * In new Jamsmine document is the test runner, and causes the find
+       * to fail inside the document but not inside the view that we typically
+       * care directly about.
+       *
+       * return $(document).find(this.actual).length
+       */
+
+      throw "jasmine.jQuery#toExist is deprecated: Use jasmine.jQuery#toExistIn(view) instead.";
+    },
+
+    toExistIn: function($el) {
+      return $el.find(this.actual).length
     },
 
     toHaveAttr: function(attributeName, expectedAttributeValue) {

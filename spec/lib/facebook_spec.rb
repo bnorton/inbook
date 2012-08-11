@@ -8,9 +8,9 @@ describe Facebook do
       Facebook.instance_variable_set(:@access_token, nil)
 
       stub_request(:post, access_token_url).with(
-        :body => {"client_id" => Facebook.id, "client_secret" => Facebook.secret, "type" => "client_cred"}
+        body: {"client_id" => Facebook.id, "client_secret" => Facebook.secret, "type" => "client_cred"}
       ).to_return(
-        :body => "access_token=274529429250773|ucuwEqn45SnW5-mPgr1IvBc5Wkc"
+        body: "access_token=274529429250773|ucuwEqn45SnW5-mPgr1IvBc5Wkc"
       )
     end
 

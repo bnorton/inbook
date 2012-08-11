@@ -3,6 +3,8 @@ beforeEach(function() {
 
   jasmine.Ajax.useMock();
   clearAjaxRequests();
+  inbook.currentUser = undefined;
+
   google = {
     visualization: {
       arrayToDataTable: function() {},

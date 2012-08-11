@@ -18,8 +18,8 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
   config.order = 'random'
 
-  config.include RequestHelper, :type => :request
-  config.include ControllerHelper, :type => :controller
+  config.include RequestHelper, type: :request
+  config.include ControllerHelper, type: :controller
 
   config.before :suite do
     DatabaseCleaner.strategy = :transaction

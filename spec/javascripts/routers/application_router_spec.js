@@ -18,12 +18,17 @@ describe("ApplicationRouter", function() {
   describe("#dashboard", function() {
     beforeEach(function() {
       spyOn(inbook.views, "DashboardIndexView");
+      spyOn(inbook.views, "UsersNavigationView");
 
       router.dashboard();
     });
 
     it("should create a dashboard view", function() {
       expect(inbook.views.DashboardIndexView).toHaveBeenCalled();
+    });
+
+    it("should create a navigation view", function() {
+      expect(inbook.views.UsersNavigationView).toHaveBeenCalled();
     });
   });
 });
