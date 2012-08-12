@@ -5,8 +5,8 @@ describe UserPresenter do
     let(:user) { FactoryGirl.create(:user) }
     subject { JSON.parse(UserPresenter.new(user).to_json) }
 
-    it "should return the allowed attributes" do
-      should == {
+    let(:allowed) do
+      {
         "id" => user.id,
         "graph_id" => user.graph_id,
         "access_token" => user.access_token,
@@ -14,6 +14,27 @@ describe UserPresenter do
         "username" => user.username,
         "updated_time" => user.updated_time
       }
+    end
+
+    it "should return the allowed attributes" do
+      should == allowed
+    end
+
+    describe "#public" do
+      subject { JSON.parse(UserPresenter.new(user).public.to_json) }
+
+      let(:allowed) do
+        {
+          "id" => user.id,
+          "graph_id" => user.graph_id,
+          "name" => user.name,
+          "username" => user.username,
+        }
+      end
+
+      it "should return the allowed attributes" do
+        should == allowed
+      end
     end
   end
 end

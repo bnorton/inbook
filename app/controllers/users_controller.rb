@@ -6,41 +6,36 @@ class UsersController < ApplicationController
       params.slice(:graph_id, :name, :username, :email, :birthday, :updated_time)
     )
 
-    respond_to {|type|
-      type.json {
-        status, user = @user.persisted? ? (set_cookie && [201, @user]) : [401, User.find_by_graph_id(params[:graph_id])]
+    @user, @status = @user.persisted? ? (set_cookie && [UserPresenter.new(@user), 201]) : [UserPresenter.new(User.find_by_graph_id(params[:graph_id])).public, 401]
 
-        render json: UserPresenter.new(user), status: status
-      }
-    }
+    respond_with_json
   end
 
   def update
-    respond_to {|type|
-      type.json {
-        status = (@user && @user.update_attributes(params.slice(:access_token)) && 200) || 404
+    @status = (@user && @user.update_attributes(params.slice(:access_token)) && 200) || 404
+    @user   = @user ? set_cookie && UserPresenter.new(@user) : {}
 
-        user = @user ? set_cookie && UserPresenter.new(@user) : {}
-
-        render json: user, status: status
-      }
-    }
+    respond_with_json
   end
 
   def destroy
-    respond_to do |type|
-      type.json {
-        user, status = @user ? [UserPresenter.new(@user), remove_cookie && 200] : [{}, 404]
+    @user, @status = @user ? [UserPresenter.new(@user), remove_cookie && 200] : [{}, 404]
 
-        render json: user, status: status
-      }
-    end
+    respond_with_json
   end
 
   private
 
   def load_user
     @user = current_user
+  end
+
+  def respond_with_json
+    respond_to {|type|
+      type.json {
+        render json: @user, status: @status
+      }
+    }
   end
 
   def set_cookie

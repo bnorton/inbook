@@ -76,10 +76,10 @@ describe UsersController do
           }.not_to change(User, :count)
         end
 
-        it "should return the user" do
+        it "should return the public user" do
           make_request
 
-          response.body.should == UserPresenter.new(user).to_json
+          response.body.should == UserPresenter.new(user).public.to_json
         end
       end
     end
