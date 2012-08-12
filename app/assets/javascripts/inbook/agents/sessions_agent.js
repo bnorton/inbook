@@ -21,9 +21,13 @@ inbook.agents.SessionsAgent = (function(user) {
 
   function authSuccess(data) {
     user.set("access_token", data.accessToken);
-    user.set("graph_id", data.userID);
 
-    api();
+    if(user.get("paid")) {
+      change();
+    } else {
+      api();
+    }
+
   }
 
   function login() {
@@ -38,8 +42,9 @@ inbook.agents.SessionsAgent = (function(user) {
 
   function api() {
     FB.api("/me", function(response) {
-      var attrs = {};
-      attrs.graph_id = response.id;
+      var attrs = {
+        graph_id: response.id
+      };
 
       _(["name", "username", "birthday", "email", "updated_time"]).each(function(attr) {
         attrs[attr] = response[attr];
@@ -47,7 +52,11 @@ inbook.agents.SessionsAgent = (function(user) {
 
       user.set(attrs);
 
-      user.trigger("change:facebook:user");
+      change();
     });
+  }
+
+  function change() {
+    user.trigger("change:facebook:user");
   }
 });

@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe UserPresenter do
   describe "#as_json" do
-    let(:user) { FactoryGirl.create(:user) }
+    let(:user) { FactoryGirl.create(:user, :paid => true) }
     subject { JSON.parse(UserPresenter.new(user).to_json) }
 
     let(:allowed) do
@@ -12,7 +12,8 @@ describe UserPresenter do
         "access_token" => user.access_token,
         "name" => user.name,
         "username" => user.username,
-        "updated_time" => user.updated_time
+        "updated_time" => user.updated_time,
+        "paid" => user.paid
       }
     end
 
@@ -28,7 +29,7 @@ describe UserPresenter do
           "id" => user.id,
           "graph_id" => user.graph_id,
           "name" => user.name,
-          "username" => user.username,
+          "username" => user.username
         }
       end
 

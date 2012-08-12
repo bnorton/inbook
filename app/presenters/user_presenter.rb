@@ -1,5 +1,5 @@
 class UserPresenter
-  ATTRIBUTES = %w(id graph_id access_token name username updated_time).freeze
+  ATTRIBUTES = %w(id graph_id access_token name username updated_time paid).freeze
   PUBLIC = %w(id graph_id name username).freeze
 
  def initialize(user)
@@ -11,6 +11,8 @@ class UserPresenter
   end
 
   def as_json(*)
-    @user.attributes.slice(*(@public ? PUBLIC : ATTRIBUTES))
+    attrs = @public ? PUBLIC : ATTRIBUTES
+
+    @user.attributes.slice(*attrs)
   end
 end

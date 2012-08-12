@@ -64,12 +64,15 @@ describe("SessionsAgent", function() {
         api.callback(user_attributes);
       });
 
-      it("should store the attributes on the user", function() {
+      it("should store the primary attributes on the user", function() {
         expect(user.get("graph_id")).toEqual(555);
+        expect(user.get("email")).toEqual("john@example.com");
         expect(user.get("name")).toEqual("John Doe");
+      });
+
+      it("should store the additional attributes on the user", function() {
         expect(user.get("username")).toEqual("johnny");
         expect(user.get("birthday")).toEqual("01/01/11");
-        expect(user.get("email")).toEqual("john@example.com");
       });
 
       it("should trigger the :facebook:user event", function() {
@@ -78,19 +81,48 @@ describe("SessionsAgent", function() {
     });
 
     describe("when the response has an authResponse", function() {
-      beforeEach(function() {
-        getLoginStatus(authResponse);
+      describe("when the user is a free user", function() {
+        beforeEach(function() {
+          user.unset("paid");
+
+          getLoginStatus(authResponse);
+        });
+
+        it("should request /me", function() {
+          expect(api.path).toEqual("/me");
+        });
+
+        it("should store the attributes on the user", function() {
+          expect(user.get("access_token")).toEqual("abcd1234");
+        });
+
+        itShouldBehaveLike("when facebook returns the user");
       });
 
-      it("should request /me", function() {
-        expect(api.path).toEqual("/me");
-      });
+      describe("when the user is a paid user", function() {
+        var facebook_user;
 
-      it("should store the attributes on the user", function() {
-        expect(user.get("access_token")).toEqual("abcd1234");
-      });
+        beforeEach(function() {
+          facebook_user = jasmine.createSpy("facebook:user");
+          user.on("change:facebook:user", facebook_user);
 
-      itShouldBehaveLike("when facebook returns the user");
+          user.set("paid", true);
+
+          getLoginStatus(authResponse);
+        });
+
+        it("should not request /me", function() {
+          expect(api).toBeUndefined();
+        });
+
+        it("should store the attributes on the user", function() {
+          expect(user.get("access_token")).toEqual("abcd1234");
+        });
+
+        it("should trigger the :facebook:user event", function() {
+          expect(facebook_user).toHaveBeenCalled();
+        });
+      });
     });
 
     describe("when the response does not have an auth response", function() {
@@ -120,7 +152,7 @@ describe("SessionsAgent", function() {
           expect(api.path).toEqual("/me");
         });
 
-        it("should store the attributes on the user", function() {
+        it("should store the access token on the user", function() {
           expect(user.get("access_token")).toEqual("abcd1234");
         });
 

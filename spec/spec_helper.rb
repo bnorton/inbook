@@ -34,7 +34,11 @@ RSpec.configure do |config|
     end
 
     WebMock.disable_net_connect!(:allow_localhost => true)
-    [ExtendAccessToken].each do |worker|
+
+    @redis = mock("Sidekiq.redis via spec_helper.rb")
+    Sidekiq.stub(:redis).and_yield(@redis)
+
+    [ExtendAccessToken, Email].each do |worker|
       worker.stub(:perform_async)
     end
   end

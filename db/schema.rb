@@ -11,11 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120810050509) do
+ActiveRecord::Schema.define(:version => 20120812183046) do
 
   create_table "users", :force => true do |t|
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.string   "name"
     t.string   "graph_id"
     t.string   "access_token"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20120810050509) do
     t.string   "password"
     t.string   "salt"
     t.datetime "access_token_expires"
+    t.boolean  "paid",                 :default => false
   end
 
   add_index "users", ["graph_id"], :name => "index_users_on_graph_id"
