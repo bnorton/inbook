@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   EIGHT = 36**8
 
   attr_accessible :access_token, :access_token_expires, :graph_id, :name, :username, :email, :birthday, :updated_time
+  attr_reader :new_password
 
   validates :graph_id, presence: true
   validate :unique_graph_id, on: :create
@@ -10,6 +11,7 @@ class User < ActiveRecord::Base
   before_create :set_access_token_expires
 
   after_create :extend_token
+  after_create :welcome
 
   def valid_password?(passworp=nil)
     !!passworp && password == Digest::SHA2.hexdigest(passworp + salt)
@@ -40,5 +42,9 @@ class User < ActiveRecord::Base
 
   def extend_token
     ExtendAccessToken.perform_async(id)
+  end
+
+  def welcome
+    Email.perform_async(:welcome, id, password: new_password)
   end
 end

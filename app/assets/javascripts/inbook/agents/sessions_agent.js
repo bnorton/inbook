@@ -21,6 +21,7 @@ inbook.agents.SessionsAgent = (function(user) {
 
   function authSuccess(data) {
     user.set("access_token", data.accessToken);
+    user.set("graph_id", data.userID);
 
     api();
   }

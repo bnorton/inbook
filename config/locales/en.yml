@@ -51,3 +51,5 @@ en:
       human: "%B %-d, %Y"
       human_ex: "%A, %B %-d, %Y"
       long: "%b %-d, %Y %-I:%M %p"
+  user_mailer:
+    welcome: "Hi: Redwoord Social"

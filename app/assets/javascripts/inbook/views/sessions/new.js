@@ -77,7 +77,7 @@ inbook.views.SessionsNewView = (function() {
     if(r.status === 401) {
       view.user.set(
         JSON.parse(r.responseText),
-        {silent: true}
+        { silent: true }
       );
 
       inbook.currentUser = view.user;

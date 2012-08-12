@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.create(
-      params.slice(:graph_id, :name, :username, :email, :birthday, :updated_time)
+      params.slice(:graph_id, :access_token, :name, :username, :email, :birthday, :updated_time)
     )
 
     @user, @status = @user.persisted? ? (set_cookie && [UserPresenter.new(@user), 201]) : [UserPresenter.new(User.find_by_graph_id(params[:graph_id])).public, 401]

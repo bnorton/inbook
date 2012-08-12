@@ -30,13 +30,23 @@ describe User do
       it "should create an 8 digit password" do
         subject.save
 
-        subject.instance_variable_get(:@new_password).length.should == 8
+        subject.new_password.length.should == 8
+      end
+
+      it "should welcome email the user" do
+        Email.should_receive(:perform_async) do |*args|
+          unless args.first == :welcome && args.second == subject.reload.id && args.third.should == {password: subject.new_password}
+            raise RSpec::Mocks::MockExpectationError.new("Must call with :welcome and the user's id'")
+          end
+        end
+
+        subject.save
       end
 
       it "should extend the token" do
         ExtendAccessToken.should_receive(:perform_async) do |*args|
           unless args.first == subject.reload.id
-            raise RSpec::Mocks::MockExpectationError.new("Must call with the latest user's id'")
+            raise RSpec::Mocks::MockExpectationError.new("Must call with the user's id'")
           end
         end
 
@@ -56,6 +66,12 @@ describe User do
         subject.save
 
         subject.reload.token.should == "123456"
+      end
+
+      it "should not have a new password" do
+        subject.save
+
+        User.find(subject.id).new_password.should be_nil
       end
     end
 
