@@ -88,68 +88,132 @@ describe("DashboardsIndexView", function() {
           }
         }
       ];
-
-      api.callback({data: fb_data});
     });
 
-    it("should trigger change counts for each post", function() {
-      expect(change.callCount).toEqual(fb_data.length);
+    describe("when aggregating the data", function() {
+      beforeEach(function() {
+        api.callback({data: fb_data});
+      });
+
+      it("should trigger change counts for each post", function() {
+        expect(change.callCount).toEqual(fb_data.length);
+      });
+
+      it("should render the posts", function() {
+        expect(view.$el.find("#posts h2").text()).toMatch(I18n.t("dashboards.index.posts.title"));
+        expect(view.$el.find("#posts p:first").text()).toMatch(I18n.t("dashboards.index.posts.description"));
+      });
+
+      it("should render the comments", function() {
+        expect(view.$el.find("#comments h2").text()).toMatch(I18n.t("dashboards.index.comments.title"));
+        expect(view.$el.find("#comments p:first").text()).toMatch(I18n.t("dashboards.index.comments.description"));
+      });
+
+      it("should render the likes", function() {
+        expect(view.$el.find("#likes h2").text()).toMatch(I18n.t("dashboards.index.likes.title"));
+        expect(view.$el.find("#likes p:first").text()).toMatch(I18n.t("dashboards.index.likes.description"));
+      });
+
+      it("should store the posts count", function() {
+        expect(data.get("posts").count).toEqual(3);
+        expect(view.$el.find("#posts h4").text()).toMatch("3");
+      });
+
+      it("should store the comments count", function() {
+        expect(data.get("comments").count).toEqual(10);
+        expect(view.$el.find("#comments h4").text()).toMatch("10");
+      });
+
+      it("should store the likes count", function() {
+        expect(data.get("likes").count).toEqual(17);
+        expect(view.$el.find("#likes h4").text()).toMatch("17");
+      });
+
+      it("should aggregate the type", function() {
+        expect(data.get("posts").type.photo).toEqual(2);
+        expect(data.get("posts").type.video).toEqual(1);
+      });
+
+      it("should aggregate the application", function() {
+        expect(data.get("posts").application["33"].count).toEqual(2);
+        expect(data.get("posts").application["33"].name).toEqual("foursquare");
+      });
+
+      it("should aggregate users who posted messages", function() {
+        expect(data.get("posts").from["2"].count).toEqual(2);
+        expect(data.get("posts").from["2"].name).toEqual("John D");
+
+        expect(data.get("posts").from["3"].count).toEqual(1);
+        expect(data.get("posts").from["3"].name).toEqual("Doug U");
+      });
+
+      it("should aggregate users who received messages", function() {
+        expect(data.get("posts").to["6"].count).toEqual(2);
+        expect(data.get("posts").to["6"].name).toEqual("Brian N");
+
+        expect(data.get("posts").to["5"].count).toEqual(1);
+        expect(data.get("posts").to["5"].name).toEqual("Mark P");
+      });
     });
 
-    it("should render the posts", function() {
-      expect(view.$el.find("#posts h2").text()).toMatch(I18n.t("dashboards.index.posts.title"));
-      expect(view.$el.find("#posts p:first").text()).toMatch(I18n.t("dashboards.index.posts.description"));
-    });
+    describe("for the global dataset", function() {
+      describe("for the posts data", function() {
+        var ready;
 
-    it("should render the comments", function() {
-      expect(view.$el.find("#comments h2").text()).toMatch(I18n.t("dashboards.index.comments.title"));
-      expect(view.$el.find("#comments p:first").text()).toMatch(I18n.t("dashboards.index.comments.description"));
-    });
+        beforeEach(function() {
+          ready = jasmine.createSpy(":ready");
+        });
 
-    it("should render the likes", function() {
-      expect(view.$el.find("#likes h2").text()).toMatch(I18n.t("dashboards.index.likes.title"));
-      expect(view.$el.find("#likes p:first").text()).toMatch(I18n.t("dashboards.index.likes.description"));
-    });
+        describe("for the types data", function() {
+          beforeEach(function() {
+            inbook.bus.on("data:posts:types:ready", ready);
 
-    it("should store the posts count", function() {
-      expect(data.get("posts").count).toEqual(3);
-      expect(view.$el.find("#posts h4").text()).toMatch("3");
-    });
+            api.callback({data: fb_data});
+          });
 
-    it("should store the comments count", function() {
-      expect(data.get("comments").count).toEqual(10);
-      expect(view.$el.find("#comments h4").text()).toMatch("10");
-    });
+          it("should format the post data", function() {
+            expect(inbook.data.posts.types).toEqual([
+              {
+                label: "photo",
+                value: 2
+              },
+              {
+                label: "video",
+                value: 1
+              }
+            ]);
+          });
 
-    it("should store the likes count", function() {
-      expect(data.get("likes").count).toEqual(17);
-      expect(view.$el.find("#likes h4").text()).toMatch("17");
-    });
+          it("should trigger the :posts:types:ready event", function() {
+            expect(ready).toHaveBeenCalled();
+          });
+        });
 
-    it("should aggregate the type", function() {
-      expect(data.get("posts").type.photo).toEqual(2);
-      expect(data.get("posts").type.video).toEqual(1);
-    });
+        describe("for the 'who is posting' data", function() {
+          beforeEach(function() {
+            inbook.bus.on("data:posts:who:ready", ready);
 
-    it("should aggregate the application", function() {
-      expect(data.get("posts").application["33"].count).toEqual(2);
-      expect(data.get("posts").application["33"].name).toEqual("foursquare");
-    });
+            api.callback({data: fb_data});
+          });
 
-    it("should aggregate users who posted messages", function() {
-      expect(data.get("posts").from["2"].count).toEqual(2);
-      expect(data.get("posts").from["2"].name).toEqual("John D");
+          it("should format the post data", function() {
+            expect(inbook.data.posts.who).toEqual([
+              {
+                label: "Doug U",
+                value: 1
+              },
+              {
+                label: "John D",
+                value: 2
+              }
+            ]);
+          });
 
-      expect(data.get("posts").from["3"].count).toEqual(1);
-      expect(data.get("posts").from["3"].name).toEqual("Doug U");
-    });
-
-    it("should aggregate users who received messages", function() {
-      expect(data.get("posts").to["6"].count).toEqual(2);
-      expect(data.get("posts").to["6"].name).toEqual("Brian N");
-
-      expect(data.get("posts").to["5"].count).toEqual(1);
-      expect(data.get("posts").to["5"].name).toEqual("Mark P");
+          it("should trigger the :posts:who:ready event", function() {
+            expect(ready).toHaveBeenCalled();
+          });
+        });
+      });
     });
   });
 
@@ -165,16 +229,6 @@ describe("DashboardsIndexView", function() {
 
     it("should trigger the :error:auth event", function() {
       expect(error).toHaveBeenCalled();
-    });
-  });
-
-  describe("on google ready", function() {
-    beforeEach(function() {
-      inbook.bus.trigger("google:ready");
-    });
-
-    it("should be ready", function() {
-      expect(view.googleReady).toEqual(true);
     });
   });
 });

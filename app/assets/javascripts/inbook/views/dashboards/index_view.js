@@ -1,6 +1,7 @@
 inbook.views.DashboardIndexView = (function() {
-  var template = JST["inbook/templates/dashboards/index"],
-      makeRequest = function(view, url) {
+  var template = JST["inbook/templates/dashboards/index"];
+
+    var makeRequest = function(view, url) {
     var posts = {
         count: 0,
         from: {},
@@ -77,13 +78,8 @@ inbook.views.DashboardIndexView = (function() {
           url = "/me/feed?limit=1000&access_token=" + inbook.currentUser.get("access_token");
 
       if(inbook.settings.ready()) {
-        that.googleReady = true;
         makeRequest(that, url);
       } else {
-        inbook.bus.on("google:ready", function() {
-          that.googleReady = true;
-        });
-
         inbook.bus.on("fb:ready", function() {
           makeRequest(that, url);
         });
@@ -110,48 +106,44 @@ inbook.views.DashboardIndexView = (function() {
     },
 
     renderCharts: function() {
-      renderTypesChart(this.$el, this.model);
-
-      renderItemsChart(this.$el, this.model, "from");
-      renderItemsChart(this.$el, this.model, "to");
+      buildTypesData(this.model);
+      buildPostingData(this.model, "from");
     }
   });
 
-  function renderTypesChart($el, model) {
-    var types = model.get("posts").type,
-        options = { colors: ["#FB2A04", "#FB8304", "#08789D", "#03B840"], backgroundColor: "white" },
-        array = _(_(types).keys()).map(function(type) {
-          return [type, types[type]];
-        });
+  function buildTypesData(model) {
+    var types = model.get("posts").type;
 
-    array.unshift(["Post Type", "Count"]);
+    inbook.data.posts.types = _(_(types).keys())
+      .map(function(type) {
+        return {
+          label: type,
+          value: types[type]
+        }
+      }
+    );
 
-    var data = google.visualization.arrayToDataTable(array);
-    (new google.visualization.PieChart($el.find("#types .chart")[0])).draw(data, options);
+    inbook.bus.trigger("data:posts:types:ready");
   }
 
-  function renderItemsChart($el, model, key) {
+  function buildPostingData(model, key) {
     var graph_id = inbook.currentUser.get("graph_id"),
-        options = { colors: ["#08789D"], backgroundColor: "white"},
         items = model.get("posts")[key],
-        array = _(_(items).keys()).map(function(from) {
-          return [items[from].name, items[from].count];
+        array = _(_(items).keys()).map(function(item) {
+          return {
+            label: items[item].name,
+            value: items[item].count
+          }
         });
 
-    array = _(_(_(array).sortBy(function(item) {
-      return item[1];
-    })).reverse()).slice(0,11);
-
     array = _(array).reject(function(item) {
-      return items[graph_id] && items[graph_id].name === item[0];
+      return items[graph_id] && items[graph_id].name === item.label;
     });
 
-    array.unshift([
-      I18n.t("dashboards.index." + key + ".user"),
-      I18n.t("dashboards.index." + key + ".number_of_posts")
-    ]);
+    inbook.data.posts.who = _(_(_(_(array).sortBy(function(item) {
+      return item.value;
+    })).reverse()).slice(0,10)).reverse();
 
-    var data = google.visualization.arrayToDataTable(array);
-    (new google.visualization.BarChart($el.find("#" + key + " .chart")[0])).draw(data, options);
+    inbook.bus.trigger("data:posts:who:ready");
   }
 }());

@@ -1,6 +1,22 @@
 <div id="login"></div>
 <div id="dashboard"></div>
+<div id="types"></div>
+<div id="who"></div>
+
 <script type="text/javascript">
+  inbook.views.graphs = [
+    {
+      el: "#types",
+      view: inbook.views.TypesGraphView,
+      args: function() { return {} }
+    },
+    {
+      el: "#who",
+      view: inbook.views.WhoGraphView,
+      args: function() { return {} }
+    }
+  ];
+
   $(function() {
     if(inbook.currentUser.id) {
       if(!/dashboard/.test(window.location.href)) {

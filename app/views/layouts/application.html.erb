@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Personal Facebook Analytics</title>
+  <title>Redwood Social Analytics</title>
   <%= stylesheet_link_tag    "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= favicon_link_tag (asset_path "favicon.ico") %>
-  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -25,12 +24,6 @@
   $(function() {
     new inbook.routers.ApplicationRouter();
     Backbone.history.start();
-  });
-
-  google.load("visualization", "1", {packages:["corechart"]});
-  google.setOnLoadCallback(function() {
-    inbook.settings._ready.google = true;
-    inbook.bus.trigger("google:ready");
   });
 </script>
 

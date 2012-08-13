@@ -343,6 +343,8 @@ jasmine.JQuery.matchersClass = {};
         if (this.actual.get && (element = this.actual.get()[0]) && !$.isWindow(element) && element.tagName !== "HTML")
           this.actual = jasmine.JQuery.elementToString(this.actual)
         return result
+      } else {
+        return !!jQueryMatchers[methodName].apply(this, arguments);
       }
 
       if (builtInMatcher) {
