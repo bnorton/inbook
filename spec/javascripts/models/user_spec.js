@@ -9,6 +9,22 @@ describe("User", function() {
     expect(user.get("name")).toEqual("Brian Norton");
   });
 
+  describe("#free", function() {
+    it("should default true", function() {
+      expect(user.free()).toEqual(true);
+    });
+
+    describe("when the user is a paid user", function() {
+      beforeEach(function() {
+        user.set("paid", true);
+      });
+
+      it("should be false", function() {
+        expect(user.free()).toEqual(false);
+      });
+    });
+  });
+
   describe("#profileImage", function() {
     it("should be https", function() {
       expect(user.profileImage()).toMatch("https");

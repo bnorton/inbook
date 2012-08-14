@@ -3,5 +3,7 @@ beforeEach(function() {
 
   jasmine.Ajax.useMock();
   clearAjaxRequests();
-  inbook.currentUser = undefined;
+  inbook.currentUser = {
+    free: function() { return false; }
+  };
 });

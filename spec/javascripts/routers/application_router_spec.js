@@ -72,5 +72,24 @@ describe("ApplicationRouter", function() {
         expect(who[0].key).toEqual("other value");
       });
     });
+
+    describe("for the data connection", function() {
+      beforeEach(function() {
+        inbook.currentUser = new inbook.models.User()
+      });
+
+      describe("when the user is a free user", function() {
+        beforeEach(function() {
+          spyOn(inbook.currentUser, "free").andReturn(true);
+          spyOn(inbook.data, "FacebookDataConnector");
+
+          router.dashboard();
+        });
+
+        it("should user the facebook data connector", function() {
+          expect(inbook.data.FacebookDataConnector).toHaveBeenCalled();
+        });
+      });
+    });
   });
 });

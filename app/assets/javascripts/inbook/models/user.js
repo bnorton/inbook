@@ -15,6 +15,10 @@ inbook.models.User = (function() {
       return url;
     },
 
+    free: function() {
+      return !this.get("paid");
+    },
+
     profileImage: function(type) {
       type || (type = "large");
 

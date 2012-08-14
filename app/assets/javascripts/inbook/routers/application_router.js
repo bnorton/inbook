@@ -6,7 +6,7 @@ inbook.routers.ApplicationRouter = (function() {
     },
 
     dashboard: function() {
-      new inbook.views.DashboardIndexView({el: "#dashboard", model: new Backbone.Model()});
+      new inbook.views.DashboardIndexView({el: "#dashboard", model: inbook.currentUser});
       new inbook.views.UsersNavigationView({el: "#user-nav", model: inbook.currentUser});
 
       _(inbook.views.graphs).each(function(graph) {
@@ -14,7 +14,11 @@ inbook.routers.ApplicationRouter = (function() {
         _(options).extend(graph.args());
 
         new graph.view(options);
-      })
+      });
+
+      if(inbook.currentUser.free()) {
+        new inbook.data.FacebookDataConnector();
+      }
     }
   })
 }());
