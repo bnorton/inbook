@@ -10,6 +10,8 @@ gem 'therubyracer'
 gem 'jquery-rails'
 gem 'ejs'
 gem 'i18n-js', git: 'git://github.com/fnando/i18n-js.git'
+gem 'multi_json'
+gem 'activerecord-import'
 
 group :assets do
   gem 'sass-rails'

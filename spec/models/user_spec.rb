@@ -21,6 +21,10 @@ describe User do
     end
   end
 
+  describe "associations" do
+    it { should have_many(:facebook_posts) }
+  end
+
   describe "#save" do
     subject { FactoryGirl.create(:user) }
 

@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   attr_accessible :access_token, :access_token_expires, :graph_id, :name, :username, :email, :birthday, :updated_time
   attr_reader :new_password
 
+  has_many :facebook_posts
+
   validates :graph_id, presence: true
   validate :unique_graph_id, on: :create
 

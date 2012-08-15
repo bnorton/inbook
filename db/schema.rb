@@ -11,7 +11,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120812183046) do
+ActiveRecord::Schema.define(:version => 20120814152949) do
+
+  create_table "facebook_posts", :force => true do |t|
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+    t.integer  "user_id"
+    t.string   "graph_id"
+    t.datetime "created_time"
+    t.integer  "likes"
+    t.integer  "comments"
+    t.string   "message"
+    t.string   "message_type"
+    t.string   "author_graph_id"
+    t.string   "author_name"
+    t.string   "object"
+    t.string   "picture"
+    t.string   "link"
+    t.string   "name"
+    t.string   "application_graph_id"
+    t.string   "application_name"
+    t.string   "privacy_description"
+    t.string   "privacy_value"
+  end
 
   create_table "users", :force => true do |t|
     t.datetime "created_at",                              :null => false

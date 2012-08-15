@@ -18,6 +18,8 @@ inbook.routers.ApplicationRouter = (function() {
 
       if(inbook.currentUser.free()) {
         new inbook.data.FacebookDataConnector();
+      } else {
+        new inbook.data.SocialDataConnector();
       }
     }
   })

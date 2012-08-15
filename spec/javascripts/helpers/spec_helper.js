@@ -4,6 +4,7 @@ beforeEach(function() {
   jasmine.Ajax.useMock();
   clearAjaxRequests();
   inbook.currentUser = {
-    free: function() { return false; }
+    free: function() { return false; },
+    url: function() { return "/thisurl"; }
   };
 });

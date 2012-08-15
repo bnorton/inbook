@@ -90,6 +90,19 @@ describe("ApplicationRouter", function() {
           expect(inbook.data.FacebookDataConnector).toHaveBeenCalled();
         });
       });
+
+      describe("when the user is a paid user", function() {
+        beforeEach(function() {
+          spyOn(inbook.currentUser, "free").andReturn(false);
+          spyOn(inbook.data, "SocialDataConnector");
+
+          router.dashboard();
+        });
+
+        it("should user the social data connector", function() {
+          expect(inbook.data.SocialDataConnector).toHaveBeenCalled();
+        });
+      });
     });
   });
 });
