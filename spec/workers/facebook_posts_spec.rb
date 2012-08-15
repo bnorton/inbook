@@ -47,8 +47,8 @@ describe FacebookPosts do
         perform
       end
 
-      it "should ask for 200 items" do
-        @api.should_receive(:get_connections).with(:me, :feed, hash_including(limit: 200)).and_return(@page1)
+      it "should ask for 100 items" do
+        @api.should_receive(:get_connections).with(:me, :feed, hash_including(limit: 100)).and_return(@page1)
 
         perform
       end
@@ -70,18 +70,10 @@ describe FacebookPosts do
         before do
           perform
 
-          @page1 = [create_message(5), create_message(4)]
+          @page1 = [@latest_message, create_message(5), create_message(4)]
           @page1.stub(:next_page).and_return([])
 
           @api.stub(:get_connections).and_return(@page1)
-        end
-
-        it "should send the latest message's created time" do
-          latest_time = Time.parse(@latest_message['created_time']).utc.to_i
-
-          @api.should_receive(:get_connections).with(:me, :feed, hash_including(since: latest_time))
-
-          perform
         end
 
         it "should create the messages internally" do

@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   after_create :extend_token
   after_create :welcome
 
+  scope :paid, where(:paid => true)
+
   def valid_password?(passworp=nil)
     !!passworp && password == Digest::SHA2.hexdigest(passworp + salt)
   end

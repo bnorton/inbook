@@ -25,6 +25,23 @@ describe User do
     it { should have_many(:facebook_posts) }
   end
 
+  describe ".paid" do
+    subject { User.paid }
+
+    before do
+      @user = FactoryGirl.create(:user)
+      @paid = FactoryGirl.create(:user, :paid => true)
+    end
+
+    it "should include paid users" do
+      should include(@paid)
+    end
+
+    it "should not include non-paid users" do
+      should_not include(@user)
+    end
+  end
+
   describe "#save" do
     subject { FactoryGirl.create(:user) }
 

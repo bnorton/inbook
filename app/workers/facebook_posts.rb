@@ -4,22 +4,21 @@ class FacebookPosts
   def perform(user_id)
     api = (user = User.find(user_id)) && Koala::Facebook::API.new(user.access_token)
 
-    options, done, messages, latest = {
-      limit: 200
-    }, false, [], user.facebook_posts.order(:created_time).last
-
-    options[:since] = latest.created_time.utc.to_i if latest
+    messages, options, any, latest = [], {
+      limit: 100
+    }, false, user.facebook_posts.order(:created_time).last
 
     feed = api.get_connections(:me, :feed, options)
-    unless feed.blank?
+    loop do
+      any = feed.select! do |message|
+        Time.parse(message["created_time"]) > latest.created_time
+      end if latest
+
+      break if (feed.blank? || any)
+
       messages += feed
 
-      until done
-        feed = feed.next_page
-        messages += feed
-
-        done = feed.blank?
-      end
+      feed = feed.next_page
     end
 
     user.facebook_posts.create_batch(messages)
