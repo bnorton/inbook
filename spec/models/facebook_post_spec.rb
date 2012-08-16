@@ -56,6 +56,29 @@ describe FacebookPost do
     end
   end
 
+  describe ".from_for" do
+    let(:user) { FactoryGirl.create(:user) }
+
+    before do
+      [[:status, 2, :john ],
+       [:status, 2, :john ],
+       [:photo,  5, :brian],
+       [:video,  5, :brian],
+       [:video,  5, :brian],
+       [:video,  5, :brian]
+      ].each do |(type, graph_id, name)|
+        FactoryGirl.create(:facebook_post, user: user, message_type: type, author_graph_id: graph_id, author_name: name)
+      end
+    end
+
+    it "should be the aggregate user posting counts" do
+      FacebookPost.from_for(user).should == [
+        { "name" => "brian", "graph_id" => "5", "count" => 4 },
+        { "name" => "john", "graph_id" => "2", "count" => 2 }
+      ]
+    end
+  end
+
   def create_message(id)
     {
       'id' => "12#{id}",

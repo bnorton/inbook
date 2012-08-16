@@ -3,7 +3,7 @@ inbook.views.TypesGraphView = (function() {
 
   return Backbone.View.extend({
     initialize: function() {
-      _.bindAll(this, "ready");
+      _.bindAll(this, "render", "ready");
 
       inbook.bus.on("data:posts:types:ready", this.ready);
       this.render();

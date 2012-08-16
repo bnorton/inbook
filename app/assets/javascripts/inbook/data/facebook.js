@@ -91,13 +91,13 @@ inbook.data.FacebookDataConnector = function() {
 
   function buildPostingData() {
     var graph_id = inbook.currentUser.get("graph_id"),
-      items = inbook.data.counts.posts.from,
-      array = _(_(items).keys()).map(function(item) {
-        return {
-          label: items[item].name,
-          value: items[item].count
-        }
-      });
+        items = inbook.data.counts.posts.from,
+        array = _(_(items).keys()).map(function(item) {
+          return {
+            label: items[item].name,
+            value: items[item].count
+          }
+        });
 
     array = _(array).reject(function(item) {
       return items[graph_id] && items[graph_id].name === item.label;

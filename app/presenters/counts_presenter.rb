@@ -9,7 +9,9 @@ class CountsPresenter
     {
       'posts'    => { 'count' => counts[:posts] },
       'comments' => { 'count' => counts[:comments] },
-      'likes'    => { 'count' => counts[:likes] }
+      'likes'    => { 'count' => counts[:likes] },
+      'type'     => @user.facebook_posts.group(:message_type).count,
+      'from'     => FacebookPost.from_for(@user)
     }
   end
 end

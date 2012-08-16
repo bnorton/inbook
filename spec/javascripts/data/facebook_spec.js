@@ -24,7 +24,7 @@ describe("FacebookDataConnector", function() {
 
   describe("when it's ready", function() {
     beforeEach(function() {
-      spyOn(inbook.settings, "ready").andReturn(true)
+      spyOn(inbook.settings, "ready").andReturn(true);
 
       connector = new inbook.data.FacebookDataConnector();
     });

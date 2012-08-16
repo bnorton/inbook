@@ -11,7 +11,7 @@ describe FacebookPosts do
     def create_message(id)
       {
         'id' => "12#{id}",
-        'from' => {'id' => "from_#{id}", 'name' => "MarkP#{id} "},
+        'from' => {'id' => "from_#{id}", 'name' => "MarkP#{id}"},
         'type' => "status",
         'message' => "A Facebook wall post",
         'created_time' => (1.day.ago + id.minutes).iso8601
@@ -66,6 +66,12 @@ describe FacebookPosts do
         posts.collect(&:user).uniq.should == [user]
       end
 
+      it "should setup an aggregator" do
+        FacebookPostsCache.should_receive(:perform_async).with(user.id)
+
+        perform
+      end
+
       describe "when new message are added externally" do
         before do
           perform
@@ -87,12 +93,6 @@ describe FacebookPosts do
           posts = FacebookPost.last(2)
 
           posts.collect(&:user).uniq.should == [user]
-        end
-
-        it "should setup an aggregator" do
-          FacebookPostsCache.should_receive(:perform_async).with(user.id)
-
-          perform
         end
       end
     end

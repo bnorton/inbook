@@ -10,12 +10,31 @@ describe CountsPresenter, :redis => true do
       {
         "posts" => { "count" => 13 },
         "comments" => { "count" => 7 },
-        "likes" => { "count" => 3 }
+        "likes" => { "count" => 3 },
+        "type" => {
+          "video" => 3,
+          "photo" => 1,
+          "status" => 2
+        },
+        "from" => [
+          { "name" => "brian", "graph_id" => "5", "count" => 4 },
+          { "name" => "john", "graph_id" => "2", "count" => 2 }
+        ]
       }
     end
 
     before do
-      RedisFactory.create(:counts, :user => user, :posts => 13, :comments => 7, :likes => 3)
+      RedisFactory.create(:counts, user: user, posts: 13, comments: 7, likes: 3)
+
+      [[:status, 2, :john ],
+       [:status, 2, :john ],
+       [:photo,  5, :brian],
+       [:video,  5, :brian],
+       [:video,  5, :brian],
+       [:video,  5, :brian]
+      ].each do |(type, graph_id, name)|
+        FactoryGirl.create(:facebook_post, user: user, message_type: type, author_graph_id: graph_id, author_name: name)
+      end
     end
 
     it "should return the allowed attributes" do

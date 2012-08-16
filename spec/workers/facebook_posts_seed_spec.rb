@@ -13,7 +13,7 @@ describe FacebookPostsSeed do
 
   describe "#perform" do
     def perform
-      FacebookPostsSeed.new.perform(Time.now)
+      FacebookPostsSeed.new.perform
     end
 
     before do

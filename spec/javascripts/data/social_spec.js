@@ -13,13 +13,16 @@ describe("SocialDataConnector", function() {
   });
 
   describe("aggregate counts", function() {
-    var ready;
+    var counts, count, types;
 
     beforeEach(function() {
       counts = getRequest("counts.json");
 
-      ready = jasmine.createSpy("ready");
-      inbook.bus.on("data:posts:counts:ready", ready);
+      count = jasmine.createSpy("count");
+      types = jasmine.createSpy("types");
+
+      inbook.bus.on("data:posts:counts:ready", count);
+      inbook.bus.on("data:posts:types:ready", types);
     });
 
     it("should GET /users/:id/counts.json", function() {
@@ -34,7 +37,12 @@ describe("SocialDataConnector", function() {
           responseText: JSON.stringify({
             posts: { count: 13 },
             comments: { count: 5 },
-            likes: { count: 3 }
+            likes: { count: 3 },
+            type: { photo: 9, video: 3, status: 12 },
+            from: [
+              { name: "brian", graph_id: "5", count: 9 },
+              { name: "john", graph_id: "2", count: 3 }
+            ]
           })
         });
       });
@@ -43,12 +51,25 @@ describe("SocialDataConnector", function() {
         expect(inbook.data.counts).toEqual({
           posts: { count: 13 },
           comments: { count: 5 },
-          likes: { count: 3 }
+          likes: { count: 3 },
+          type: {
+            video: 3,
+            photo: 9,
+            status: 12
+          },
+          from: {
+            2: { name: "john", count: 3 },
+            5: { name: "brian", count: 9 }
+          }
         });
       });
 
       it("should trigger the :posts:counts:ready event", function() {
-        expect(ready).toHaveBeenCalled();
+        expect(count).toHaveBeenCalled();
+      });
+
+      it("should trigger the :posts:types:ready event", function() {
+        expect(types).toHaveBeenCalled();
       });
     });
 
@@ -68,12 +89,18 @@ describe("SocialDataConnector", function() {
         expect(inbook.data.counts).toEqual({
           posts: { count: 0 },
           comments: { count: 0 },
-          likes: { count: 0 }
+          likes: { count: 0 },
+          type: {},
+          from: {}
         });
       });
 
       it("should trigger the :posts:counts:ready event", function() {
-        expect(ready).toHaveBeenCalled();
+        expect(count).toHaveBeenCalled();
+      });
+
+      it("should trigger the :posts:types:ready event", function() {
+        expect(types).toHaveBeenCalled();
       });
 
       it("should error", function() {
