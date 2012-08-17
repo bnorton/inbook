@@ -7,4 +7,7 @@ beforeEach(function() {
     free: function() { return false; },
     url: function() { return "/thisurl"; }
   };
+
+  inbook.data.counts = {};
+  inbook.data.posts = {};
 });

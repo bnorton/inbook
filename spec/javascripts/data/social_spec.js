@@ -13,16 +13,18 @@ describe("SocialDataConnector", function() {
   });
 
   describe("aggregate counts", function() {
-    var counts, count, types;
+    var counts, count, types, who;
 
     beforeEach(function() {
       counts = getRequest("counts.json");
 
       count = jasmine.createSpy("count");
       types = jasmine.createSpy("types");
+      who = jasmine.createSpy("who");
 
       inbook.bus.on("data:posts:counts:ready", count);
       inbook.bus.on("data:posts:types:ready", types);
+      inbook.bus.on("data:posts:who:ready", who);
     });
 
     it("should GET /users/:id/counts.json", function() {
@@ -70,6 +72,46 @@ describe("SocialDataConnector", function() {
 
       it("should trigger the :posts:types:ready event", function() {
         expect(types).toHaveBeenCalled();
+      });
+
+      it("should trigger the :posts:who:ready event", function() {
+        expect(who).toHaveBeenCalled();
+      });
+
+      describe("for the global dataset", function() {
+        describe("for the types data", function() {
+          it("should format the post data", function() {
+            expect(inbook.data.posts.types).toEqual([
+              {
+                label: "photo",
+                value: 9
+              },
+              {
+                label: "video",
+                value: 3
+              },
+              {
+                label: "status",
+                value: 12
+              }
+            ]);
+          });
+        });
+
+        describe("for the 'who is posting' data", function() {
+          it("should format the post data", function() {
+            expect(inbook.data.posts.who).toEqual([
+              {
+                label: "brian",
+                value: 9
+              },
+              {
+                label: "john",
+                value: 3
+              }
+            ]);
+          });
+        });
       });
     });
 
