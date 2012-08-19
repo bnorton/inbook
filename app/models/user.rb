@@ -6,13 +6,9 @@ class User < ActiveRecord::Base
 
   has_many :facebook_posts
   has_many :friends do
-    def added(s, e)
-      where("added_at > ? AND added_at < ?", s, e)
-    end
-
-    def subtracted(s, e)
-      where("subtracted_at > ? AND subtracted_at < ?", s, e)
-    end
+    def added(s, e); where("added_at > ? AND added_at < ?", s, e) end
+    def subtracted(s, e); where("subtracted_at > ? AND subtracted_at < ?", s, e) end
+    def graph_ids; select(:graph_id).collect(&:graph_id) end
   end
 
   validates :graph_id, presence: true

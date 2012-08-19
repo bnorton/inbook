@@ -59,6 +59,68 @@ describe Friends do
           friends.collect(&:added_at).uniq.should == [Time.now]
         end
       end
+
+      describe "when importing again" do
+        before do
+          perform
+        end
+
+        describe "when friends are added" do
+          before do
+            @friends = @friends << create_friend(5)
+          end
+
+          it "should add the friends" do
+            expect {
+              perform
+            }.to change(Friend, :count).by(1)
+          end
+
+          it "should be the users friend" do
+            perform
+            friend = Friend.last
+
+            friend.user.should == user
+          end
+
+          it "should be added now" do
+            Timecop.freeze(DateTime.now) do
+              perform
+              friend = Friend.last
+
+              friend.added_at.should == Time.now
+              friend.subtracted_at.should == nil
+            end
+          end
+        end
+
+        describe "when friends are subtracted" do
+          before do
+            @subtracted = [@friends.pop, @friends.pop].collect {|f| f["id"]}
+          end
+
+          it "should not remove the friend" do
+            expect {
+              perform
+            }.not_to change(Friend, :count)
+          end
+
+          it "should mark the friend as subtracted" do
+            Timecop.freeze(DateTime.now) do
+              perform
+
+              friends = user.friends.where(:graph_id => @subtracted)
+              friends.collect(&:subtracted_at).uniq.should == [Time.now]
+            end
+          end
+
+          it "should not mark any other friends as lost" do
+            perform
+
+            user.friends.collect(&:subtracted_at).compact.size.should == 2
+          end
+        end
+      end
     end
   end
 end
