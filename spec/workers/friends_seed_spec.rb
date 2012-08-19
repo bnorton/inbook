@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe FacebookPostsSeed do
+describe FriendsSeed do
   describe ".options" do
     it "should define the 'unique' option" do
       subject.class.sidekiq_options.should == {
@@ -13,7 +13,7 @@ describe FacebookPostsSeed do
 
   describe "#perform" do
     def perform
-      FacebookPostsSeed.new.perform
+      FriendsSeed.new.perform
     end
 
     before do
@@ -22,14 +22,14 @@ describe FacebookPostsSeed do
     end
 
     it "should add a fetcher per user" do
-      FacebookPosts.should_receive(:perform_async).with(@users.first.id)
-      FacebookPosts.should_receive(:perform_async).with(@users.last.id)
+      Friends.should_receive(:perform_async).with(@users.first.id)
+      Friends.should_receive(:perform_async).with(@users.last.id)
 
       perform
     end
 
     it "should not add a fetcher for unpaid users" do
-      FacebookPosts.should_not_receive(:perform_async).with(@unpaid_user.id)
+      Friends.should_not_receive(:perform_async).with(@unpaid_user.id)
 
       perform
     end

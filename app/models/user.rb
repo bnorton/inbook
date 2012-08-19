@@ -5,6 +5,15 @@ class User < ActiveRecord::Base
   attr_reader :new_password
 
   has_many :facebook_posts
+  has_many :friends do
+    def added(s, e)
+      where("added_at > ? AND added_at < ?", s, e)
+    end
+
+    def subtracted(s, e)
+      where("subtracted_at > ? AND subtracted_at < ?", s, e)
+    end
+  end
 
   validates :graph_id, presence: true
   validate :unique_graph_id, on: :create
@@ -12,7 +21,7 @@ class User < ActiveRecord::Base
   before_create :set_token_and_password
   before_create :set_access_token_expires
 
-  after_create :extend_token
+  after_create :seed
   after_create :welcome
 
   scope :paid, where(:paid => true)
@@ -44,8 +53,10 @@ class User < ActiveRecord::Base
     self.access_token_expires = 2.hours.from_now
   end
 
-  def extend_token
-    ExtendAccessToken.perform_async(id)
+  def seed
+    [ExtendAccessToken, FacebookPosts, Friends].each do |fetcher|
+      fetcher.perform_async(id)
+    end
   end
 
   def welcome

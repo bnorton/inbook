@@ -13,6 +13,14 @@ describe("ApplicationRouter", function() {
     it("should have dashboard", function() {
       expect(router.routes["!dashboard"]).toEqual("dashboard");
     });
+
+    it("should have dashboard/friends", function() {
+      expect(router.routes["!/dashboard/friends"]).toEqual("friends");
+    });
+
+    it("should have dashboard", function() {
+      expect(router.routes["!dashboard/friends"]).toEqual("friends");
+    });
   });
 
   describe("#dashboard", function() {
@@ -103,6 +111,23 @@ describe("ApplicationRouter", function() {
           expect(inbook.data.SocialDataConnector).toHaveBeenCalled();
         });
       });
+    });
+  });
+
+  describe("#friends", function() {
+    beforeEach(function() {
+      spyOn(inbook.views, "FriendsIndexView");
+      spyOn(inbook.data, "FriendsDataConnector");
+
+      router.friends();
+    });
+
+    it("should render a friends index view", function() {
+      expect(inbook.views.FriendsIndexView).toHaveBeenCalled();
+    });
+
+    it("should user the friends data connector", function() {
+      expect(inbook.data.FriendsDataConnector).toHaveBeenCalled();
     });
   });
 });

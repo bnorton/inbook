@@ -2,7 +2,9 @@ inbook.routers.ApplicationRouter = (function() {
   return Backbone.Router.extend({
     routes: {
       "!/dashboard": "dashboard",
-      "!dashboard": "dashboard"
+      "!dashboard": "dashboard",
+      "!/dashboard/friends": "friends",
+      "!dashboard/friends": "friends"
     },
 
     dashboard: function() {
@@ -21,6 +23,11 @@ inbook.routers.ApplicationRouter = (function() {
       } else {
         new inbook.data.SocialDataConnector();
       }
+    },
+
+    friends: function() {
+      new inbook.data.FriendsDataConnector();
+      new inbook.views.FriendsIndexView({el: "#dashboard"});
     }
   })
 }());

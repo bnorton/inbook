@@ -29,3 +29,9 @@ inbook.models.User = (function() {
     }
   });
 }());
+
+inbook.models.User.profileImage = function(id) {
+  var token = inbook.currentUser.get("access_token");
+
+  return "https://graph.facebook.com/" + id + "/picture?return_ssl_resources=1&access_token=" + token + "&type=large";
+};

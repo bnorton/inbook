@@ -23,6 +23,7 @@ describe User do
 
   describe "associations" do
     it { should have_many(:facebook_posts) }
+    it { should have_many(:friends) }
   end
 
   describe ".paid" do
@@ -67,7 +68,7 @@ describe User do
       it "should extend the token" do
         ExtendAccessToken.should_receive(:perform_async) do |*args|
           unless args.first == subject.reload.id
-            raise RSpec::Mocks::MockExpectationError.new("Must call with the user's id'")
+            raise RSpec::Mocks::MockExpectationError.new("Must call ExtendAccessToken with the user's id'")
           end
         end
 
@@ -80,6 +81,26 @@ describe User do
 
           subject.reload.access_token_expires.should == 2.hours.from_now
         end
+      end
+
+      it "should fetch the feed" do
+        FacebookPosts.should_receive(:perform_async) do |*args|
+          unless args.first == subject.reload.id
+            raise RSpec::Mocks::MockExpectationError.new("Must call FacebookPosts with the user's id")
+          end
+        end
+
+        subject.save
+      end
+
+      it "should fetch friends" do
+        Friends.should_receive(:perform_async) do |*args|
+          unless args.first == subject.reload.id
+            raise RSpec::Mocks::MockExpectationError.new("Must call Friends with the user's id")
+          end
+        end
+
+        subject.save
       end
 
       it "should create a token" do

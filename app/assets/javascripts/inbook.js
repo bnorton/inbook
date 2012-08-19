@@ -7,7 +7,8 @@
 
 inbook = {
   data: {
-    posts: {}
+    posts: {},
+    friends: {}
   },
   collections: {},
   models: {},

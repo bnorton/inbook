@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe FacebookPostsCache do
-  describe "#perfrom" do
+  describe "#perform" do
     let(:user) { FactoryGirl.create(:user) }
 
     def perform
