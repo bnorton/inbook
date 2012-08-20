@@ -19,7 +19,7 @@ inbook = {
   utils: {},
   routers: {},
   settings: {
-    permissions: {scope: "read_stream, read_requests, user_status, user_likes, user_photos, user_videos, email"},
+    permissions: {scope: "read_stream, read_requests, user_status, user_likes, user_photos, user_videos, email, user_location, friends_location"},
     _ready: {},
     ready: function() { return !!inbook.settings._ready.facebook; }
   }

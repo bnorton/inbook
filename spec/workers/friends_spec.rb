@@ -122,5 +122,13 @@ describe Friends do
         end
       end
     end
+
+    describe "metadata" do
+      it "should fetch metadata" do
+        FriendsMetadata.should_receive(:perform_async).with(user.id)
+
+        perform
+      end
+    end
   end
 end

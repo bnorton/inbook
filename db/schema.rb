@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120817150354) do
+ActiveRecord::Schema.define(:version => 20120819233715) do
 
   create_table "facebook_posts", :force => true do |t|
     t.datetime "created_at",           :null => false
@@ -45,6 +45,8 @@ ActiveRecord::Schema.define(:version => 20120817150354) do
     t.string   "name"
     t.datetime "added_at"
     t.datetime "subtracted_at"
+    t.string   "location_id"
+    t.string   "location_name"
   end
 
   add_index "friends", ["user_id", "graph_id"], :name => "index_friends_on_user_id_and_graph_id", :unique => true
