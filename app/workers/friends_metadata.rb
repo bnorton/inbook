@@ -10,19 +10,20 @@ class FriendsMetadata
         batch.get_object("?ids=" + group.join(","))
       end
     end.each do |result|
-      list = result.values
-      list.select! {|friend| friend["location"].present? }
-
-      friends += list
+      friends += result.values
     end
 
     friends.each do |friend|
-      user.friends.where(graph_id: friend["id"]).update_all(
-        friend.slice(*%w(gender link)).merge(
-          location_id: friend["location"]["id"],
-          location_name: friend["location"]["name"]
-        )
-      )
+      data = friend.slice(*%w(gender link))
+
+      data.merge!(
+        location_id: friend["location"]["id"],
+        location_name: friend["location"]["name"]
+      ) if friend["location"].present?
+
+      user.friends.where(
+        graph_id: friend["id"]
+      ).update_all(data)
     end
   end
 end

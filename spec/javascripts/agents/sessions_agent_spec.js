@@ -143,7 +143,7 @@ describe("SessionsAgent", function() {
       });
 
       it("should have the right permissions", function() {
-        expect(perms).toEqual({scope: "read_stream, read_requests, email, user_status, user_likes, user_photos, user_videos, user_location, user_relationships, friends_location, friends_relationships"});
+        expect(perms).toEqual({scope: "read_stream, read_requests, email, user_status, user_likes, user_photos, user_videos, user_location, user_relationships, user_likes, friends_location, friends_relationships, friends_likes"});
       });
 
       describe("when the user logs in", function() {
