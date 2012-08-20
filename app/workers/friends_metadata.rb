@@ -18,8 +18,10 @@ class FriendsMetadata
 
     friends.each do |friend|
       user.friends.where(graph_id: friend["id"]).update_all(
-        location_id: friend["location"]["id"],
-        location_name: friend["location"]["name"]
+        friend.slice(*%w(gender link)).merge(
+          location_id: friend["location"]["id"],
+          location_name: friend["location"]["name"]
+        )
       )
     end
   end

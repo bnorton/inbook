@@ -14,7 +14,9 @@ describe FriendsMetadata do
         'location' => {
           'id' => "loc#{id}",
           'name' => "San Francisco #{id}"
-        }
+        },
+        'gender' => (id % 2).zero? ? "male" : "female",
+        'link' => "http://#{id}.com"
       }
     end
 
@@ -58,6 +60,14 @@ describe FriendsMetadata do
 
       @friends.collect(&:location_id).should == ["loc1", "loc2"]
       @friends.collect(&:location_name).should == ["San Francisco 1", "San Francisco 2"]
+    end
+
+    it "should store other metadata" do
+      perform
+      @friends.map(&:reload)
+
+      @friends.collect(&:gender).should == ["female", "male"]
+      @friends.collect(&:link).should == ["http://1.com", "http://2.com"]
     end
   end
 end

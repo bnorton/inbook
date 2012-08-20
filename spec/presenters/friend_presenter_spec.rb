@@ -20,6 +20,8 @@ describe FriendPresenter do
         'id' => friend.id,
         'graph_id' => friend.graph_id,
         'name' => friend.name,
+        'link' => friend.link,
+        'gender' => friend.gender,
         'added_at' => friend.added_at,
         'subtracted_at' => friend.subtracted_at
       }

@@ -47,6 +47,8 @@ ActiveRecord::Schema.define(:version => 20120819233715) do
     t.datetime "subtracted_at"
     t.string   "location_id"
     t.string   "location_name"
+    t.string   "link"
+    t.string   "gender"
   end
 
   add_index "friends", ["user_id", "graph_id"], :name => "index_friends_on_user_id_and_graph_id", :unique => true
@@ -66,6 +68,10 @@ ActiveRecord::Schema.define(:version => 20120819233715) do
     t.string   "salt"
     t.datetime "access_token_expires"
     t.boolean  "paid",                 :default => false
+    t.string   "location_id"
+    t.string   "location_name"
+    t.string   "link"
+    t.string   "gender"
   end
 
   add_index "users", ["graph_id"], :name => "index_users_on_graph_id"

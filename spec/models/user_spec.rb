@@ -132,6 +132,8 @@ describe User do
           "access_token_expires" => Time.now,
           "graph_id" => "321",
           "name" => "John",
+          "gender" => "female",
+          "link" => "http:/gmail.com",
           "username" => "johnny",
           "email" => "john@example.com",
           "birthday" => "today",

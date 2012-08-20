@@ -57,7 +57,8 @@ describe("SessionsAgent", function() {
           name: "John Doe",
           username: "johnny",
           birthday: "01/01/11",
-          gender: "m",
+          gender: "male",
+          link: "http://facebook.com/johnny",
           email: "john@example.com"
         };
 
@@ -72,6 +73,8 @@ describe("SessionsAgent", function() {
 
       it("should store the additional attributes on the user", function() {
         expect(user.get("username")).toEqual("johnny");
+        expect(user.get("gender")).toEqual("male");
+        expect(user.get("link")).toEqual("http://facebook.com/johnny");
         expect(user.get("birthday")).toEqual("01/01/11");
       });
 
@@ -139,8 +142,8 @@ describe("SessionsAgent", function() {
         expect(login).toBeDefined();
       });
 
-      it("should have permissions", function() {
-        expect(perms).toEqual({scope: "read_stream, read_requests, user_status, user_likes, user_photos, user_videos, email, user_location, friends_location"});
+      it("should have the right permissions", function() {
+        expect(perms).toEqual({scope: "read_stream, read_requests, email, user_status, user_likes, user_photos, user_videos, user_location, user_relationships, friends_location, friends_relationships"});
       });
 
       describe("when the user logs in", function() {

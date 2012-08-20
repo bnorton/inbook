@@ -10,6 +10,8 @@ describe UsersController do
           name: 'John Doe',
           username: 'johnny',
           email: 'john@example.com',
+          gender: 'female',
+          link: 'http://facebook.com/johnny',
           birthday: '01/01/11',
           updated_time: Time.now.to_s
         }

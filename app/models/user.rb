@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   EIGHT = 36**8
 
-  attr_accessible :access_token, :access_token_expires, :graph_id, :name, :username, :email, :birthday, :updated_time
+  attr_accessible :access_token, :access_token_expires, :graph_id, :name, :link, :gender, :username, :email, :birthday, :updated_time
   attr_reader :new_password
 
   has_many :facebook_posts
