@@ -2,12 +2,16 @@
 
 <div id="added">
   <% _(friends.added).each(function(friend) { %>
-    <img src="<%= inbook.models.User.profileImage(friend.graph_id) %>" />
+    <a href="<%= friend.link %>" target="_blank">
+      <img src="<%= inbook.models.User.profileImage(friend.graph_id) %>" title="<%= friend.name %>" />
+    </a>
   <% }) %>
 </div>
 
 <div id="subtracted">
   <% _(friends.subtracted).each(function(friend) { %>
-    <img src="<%= inbook.models.User.profileImage(friend.graph_id) %>" />
+    <a href="<%= friend.link %>" target="_blank">
+      <img src="<%= inbook.models.User.profileImage(friend.graph_id) %>" title="<%= friend.name %>" />
+    </a>
   <% }) %>
 </div>
