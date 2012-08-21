@@ -12,7 +12,7 @@ class FacebookComments
       end
 
       results.each_with_index do |comments, i|
-        group[i].facebook_comments.create_batch(comments, user)
+        group[i].facebook_comments.create_batch(comments, user) unless comments.blank?
       end
     end
   end
