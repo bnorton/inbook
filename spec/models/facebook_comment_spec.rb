@@ -24,6 +24,8 @@ describe FacebookComment do
         comment = FacebookComment.build_from_hash(create_comment(3), user).tap(&:save)
 
         comment.graph_id.should == "12_34_3"
+        comment.author_graph_id.should == "from_3"
+        comment.author_name.should == "MarkP3"
         comment.message.should == "A Facebook comment"
         comment.created_time.should == 1.day.ago + 3.minutes
         comment.likes.should == 4

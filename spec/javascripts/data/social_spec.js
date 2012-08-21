@@ -37,10 +37,18 @@ describe("SocialDataConnector", function() {
         counts.response({
           status: 200,
           responseText: JSON.stringify({
-            posts: { count: 13 },
-            comments: { count: 5 },
-            likes: { count: 3 },
-            type: { photo: 9, video: 3, status: 12 },
+            posts: {
+              count: 13,
+              type: { photo: 9, video: 3, status: 12 }
+            },
+            comments: {
+              count: 5,
+              name: { mike: 3, jay: 6 }
+            },
+            likes: {
+              count: 3,
+              name: { joey: 9, george: 12 }
+            },
             from: [
               { name: "brian", graph_id: "5", count: 9 },
               { name: "john", graph_id: "2", count: 3 }
@@ -51,14 +59,17 @@ describe("SocialDataConnector", function() {
 
       it("should set the counts into the global data set", function() {
         expect(inbook.data.counts).toEqual({
-          posts: { count: 13 },
-          comments: { count: 5 },
-          likes: { count: 3 },
-          type: {
-            video: 3,
-            photo: 9,
-            status: 12
+          posts: {
+            count: 13,
+            type: { video: 3, photo: 9, status: 12 }
           },
+          comments: {
+            count: 5,
+            name: { mike: 3, jay: 6 }
+          },
+          likes: {
+            count: 3,
+            name: { joey: 9, george: 12 }},
           from: {
             2: { name: "john", count: 3 },
             5: { name: "brian", count: 9 }
@@ -98,6 +109,36 @@ describe("SocialDataConnector", function() {
           });
         });
 
+        describe("for the name data", function() {
+          it("should format the comment data", function() {
+            expect(inbook.data.comments.names).toEqual([
+              {
+                label: "jay",
+                value: 6
+              },
+              {
+                label: "mike",
+                value: 3
+              }
+            ]);
+          });
+        });
+
+        describe("for the name data", function() {
+          it("should format the like data", function() {
+            expect(inbook.data.likes.names).toEqual([
+              {
+                label: "george",
+                value: 12
+              },
+              {
+                label: "joey",
+                value: 9
+              }
+            ]);
+          });
+        });
+
         describe("for the 'who is posting' data", function() {
           it("should format the post data", function() {
             expect(inbook.data.posts.who).toEqual([
@@ -129,10 +170,9 @@ describe("SocialDataConnector", function() {
 
       it("should set the counts to 0", function() {
         expect(inbook.data.counts).toEqual({
-          posts: { count: 0 },
-          comments: { count: 0 },
-          likes: { count: 0 },
-          type: {},
+          posts: { count: 0, type: {} },
+          comments: { count: 0, name: {} },
+          likes: { count: 0, name: {}  },
           from: {}
         });
       });

@@ -24,6 +24,7 @@ describe User do
   describe "associations" do
     it { should have_many(:facebook_posts) }
     it { should have_many(:facebook_comments) }
+    it { should have_many(:facebook_likes) }
     it { should have_many(:friends) }
   end
 

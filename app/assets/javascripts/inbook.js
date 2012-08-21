@@ -8,6 +8,8 @@
 inbook = {
   data: {
     posts: {},
+    comments: {},
+    likes: {},
     friends: {}
   },
   collections: {},

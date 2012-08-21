@@ -16,7 +16,7 @@ class FacebookPosts
 
     user.facebook_posts.create_batch(messages)
 
-    [FacebookPostsCache, FacebookComments].each do |worker|
+    [FacebookPostsCache, FacebookComments, FacebookLikes].each do |worker|
       worker.perform_async(user.id)
     end
   end

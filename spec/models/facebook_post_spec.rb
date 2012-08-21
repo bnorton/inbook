@@ -4,6 +4,7 @@ describe FacebookPost do
   describe "associations" do
     it { should belong_to(:user) }
     it { should have_many(:facebook_comments) }
+    it { should have_many(:facebook_likes) }
   end
 
   describe "validations" do

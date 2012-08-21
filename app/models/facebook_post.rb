@@ -3,6 +3,7 @@ class FacebookPost < ActiveRecord::Base
 
   belongs_to :user
   has_many :facebook_comments
+  has_many :facebook_likes
 
   validates :user_id, :graph_id, :message_type, :created_time, :author_graph_id, presence: true
 

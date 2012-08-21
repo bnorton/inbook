@@ -1,5 +1,5 @@
 class FacebookComment < ActiveRecord::Base
-  attr_accessible :user, :message, :created_time, :graph_id, :likes
+  attr_accessible :user, :message, :created_time, :graph_id, :likes, :author_graph_id, :author_name
 
   belongs_to :user
   belongs_to :facebook_post
@@ -17,7 +17,9 @@ class FacebookComment < ActiveRecord::Base
       hash.slice(*%w(message created_time)).merge(
         user: user,
         graph_id: hash["id"],
-        likes: hash["likes_count"]
+        likes: hash["likes_count"],
+        author_graph_id: hash["from"]["id"],
+        author_name: hash["from"]["name"]
       )
     )
   end

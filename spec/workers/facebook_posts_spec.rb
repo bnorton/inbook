@@ -78,6 +78,12 @@ describe FacebookPosts do
         perform
       end
 
+      it "should update likes" do
+        FacebookLikes.should_receive(:perform_async).with(user.id)
+
+        perform
+      end
+
       describe "when new message are added externally" do
         before do
           perform

@@ -1,9 +1,8 @@
 inbook.data.SocialDataConnector = function() {
   var defaultCounts = {
-    posts: { count: 0 },
-    comments: { count: 0 },
-    likes: { count: 0 },
-    type: {}
+    posts: { count: 0, type: {} },
+    comments: { count: 0, name: {} },
+    likes: { count: 0, name: {} }
   };
 
   $.get(inbook.currentUser.url(true) + "/counts.json").
@@ -21,6 +20,7 @@ inbook.data.SocialDataConnector = function() {
 
     types(counts);
     from(counts);
+    names(counts);
 
     _(["counts", "types", "who"]).each(function(type) {
       inbook.bus.trigger("data:posts:" + type + ":ready")
@@ -28,7 +28,7 @@ inbook.data.SocialDataConnector = function() {
   }
 
   function types(counts) {
-    var types = _(counts.type).clone();
+    var types = _(counts.posts.type).clone();
 
     inbook.data.posts.types = _(_(types).
       keys()).
@@ -64,5 +64,24 @@ inbook.data.SocialDataConnector = function() {
           value: item.count
         }
       });
+  }
+
+  function names(counts) {
+    _(["comments", "likes"]).each(function(type) {
+      var names = _(counts[type].name).clone();
+
+      inbook.data[type].names = _(_(_(_(names).
+        keys()).
+        map(function(name) {
+          return {
+            label: name,
+            value: names[name]
+          }
+        })).
+        sortBy(function(name) {
+          return name.value;
+        })).
+        reverse();
+    });
   }
 };
