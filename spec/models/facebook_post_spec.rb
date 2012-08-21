@@ -3,6 +3,7 @@ require "spec_helper"
 describe FacebookPost do
   describe "associations" do
     it { should belong_to(:user) }
+    it { should have_many(:facebook_comments) }
   end
 
   describe "validations" do

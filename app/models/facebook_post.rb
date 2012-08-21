@@ -2,6 +2,7 @@ class FacebookPost < ActiveRecord::Base
   attr_accessible :graph_id, :message, :message_type, :created_time, :object, :picture, :link, :name, :author_graph_id, :author_name, :application_graph_id, :application_name, :privacy_value, :privacy_description, :likes, :comments
 
   belongs_to :user
+  has_many :facebook_comments
 
   validates :user_id, :graph_id, :message_type, :created_time, :author_graph_id, presence: true
 

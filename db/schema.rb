@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120819233715) do
+ActiveRecord::Schema.define(:version => 20120821003055) do
+
+  create_table "facebook_comments", :force => true do |t|
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "user_id"
+    t.integer  "facebook_post_id"
+    t.string   "graph_id"
+    t.string   "message"
+    t.datetime "created_time"
+    t.integer  "likes"
+  end
+
+  add_index "facebook_comments", ["facebook_post_id", "graph_id"], :name => "facebook_comments_uniqueness", :unique => true
+  add_index "facebook_comments", ["graph_id"], :name => "index_facebook_comments_on_graph_id"
 
   create_table "facebook_posts", :force => true do |t|
     t.datetime "created_at",           :null => false

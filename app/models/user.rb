@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   attr_reader :new_password
 
   has_many :facebook_posts
+  has_many :facebook_comments
   has_many :friends do
     def added(s, e); where("added_at > ? AND added_at < ?", s, e) end
     def subtracted(s, e); where("subtracted_at > ? AND subtracted_at < ?", s, e) end
