@@ -11,7 +11,7 @@ class FacebookPost < ActiveRecord::Base
       build_from_hash hash
     end
 
-    import posts, validate: true
+    import posts, validate: true, on_duplicate_key_update: [:updated_at, :likes, :comments]
   end
 
   def self.build_from_hash(hash)
@@ -37,7 +37,7 @@ class FacebookPost < ActiveRecord::Base
     attrs[:likes]    = hash['likes']['count'] if hash['likes']
     attrs[:comments] = hash['comments']['count'] if hash['comments']
 
-    FacebookPost.new(attrs)
+    new(attrs)
   end
 
   def self.from_for(user)

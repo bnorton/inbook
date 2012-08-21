@@ -9,7 +9,7 @@ class FacebookComment < ActiveRecord::Base
       build_from_hash(hash, user)
     end
 
-    import comments, validate: true
+    import comments, validate: true, on_duplicate_key_update: [:updated_at, :likes]
   end
 
   def self.build_from_hash(hash, user)
