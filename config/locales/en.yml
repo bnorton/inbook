@@ -43,7 +43,7 @@ en:
     about: "About"
     dashboard: "Dashboard"
     more: "Track over Time?"
-    ana_book: "Facebook Analytics"
+    ana_book: "Social Analytics"
   date:
     formats:
       short: "%-m/%-d/%y"

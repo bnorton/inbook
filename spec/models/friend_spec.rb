@@ -19,7 +19,7 @@ describe Friend do
 
         friend.graph_id.should == "123"
         friend.name.should == "fb user 3"
-        friend.added_at.should == Time.now
+        friend.added_at.should == nil
         friend.subtracted_at.should == nil
       end
     end

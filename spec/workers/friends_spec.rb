@@ -2,10 +2,11 @@ require "spec_helper"
 
 describe Friends do
   describe "#perform" do
+    let(:args) { [] }
     let(:user) { FactoryGirl.create(:user) }
 
     def perform
-      Friends.new.perform(user.id)
+      Friends.new.perform(user.id, *args)
     end
 
     def create_friend(id)
@@ -33,6 +34,8 @@ describe Friends do
     end
 
     describe "on initial import" do
+      let(:args) { ['initial_import' => true] }
+
       before do
         @friends = 4.times.collect {|i| create_friend(i) }
         @api.stub(:get_connections).and_return(@friends)
@@ -51,16 +54,18 @@ describe Friends do
         friends.collect(&:user).uniq.should == [user]
       end
 
-      it "should have a added time of now" do
+      it "should not have an added time" do
         Timecop.freeze(DateTime.now) do
           perform
           friends = Friend.last(4)
 
-          friends.collect(&:added_at).uniq.should == [Time.now]
+          friends.collect(&:added_at).uniq.should == [nil]
         end
       end
 
       describe "when importing again" do
+        let(:args) { [] }
+
         before do
           perform
         end
@@ -120,14 +125,22 @@ describe Friends do
             user.friends.collect(&:subtracted_at).compact.size.should == 2
           end
         end
+
+        describe "metadata" do
+          it "should fetch metadata" do
+            FriendsMetadata.should_receive(:perform_async).with(user.id)
+
+            perform
+          end
+        end
       end
-    end
 
-    describe "metadata" do
-      it "should fetch metadata" do
-        FriendsMetadata.should_receive(:perform_async).with(user.id)
+      describe "metadata" do
+        it "should fetch metadata" do
+          FriendsMetadata.should_receive(:perform_async).with(user.id)
 
-        perform
+          perform
+        end
       end
     end
   end

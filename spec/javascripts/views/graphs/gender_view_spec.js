@@ -1,4 +1,4 @@
-describe("TypesGraphView", function() {
+describe("GenderGraphView", function() {
   var view, select, call, addGraph, x, y;
 
   beforeEach(function() {
@@ -12,8 +12,11 @@ describe("TypesGraphView", function() {
       return {
         x: function(c) {
           x = c; return {
-            y: function(c) { y = c; return {
-              showLabels: function() {}
+            y: function(c) {
+              y = c; return {
+              color: function() { return {
+                showLabels: function() {}
+              }}
             }}
           }
         }
@@ -34,7 +37,7 @@ describe("TypesGraphView", function() {
     spyOn(select, "datum").andCallThrough();
     spyOn(d3, "select").andReturn(select);
 
-    view = new inbook.views.TypesGraphView();
+    view = new inbook.views.GenderGraphView();
   });
 
   it("should not add a graph", function() {
@@ -47,25 +50,25 @@ describe("TypesGraphView", function() {
   });
 
   describe("when the data is ready", function() {
-    var types;
+    var genders;
 
     beforeEach(function() {
-      types = [
+      genders = [
         {
-          label: "status",
-          value: 3
+          label: "male",
+          value: 30
         },
         {
-          label: "photo",
-          value: 4
+          label: "female",
+          value: 40
         }
       ];
 
-      inbook.data.posts = {
-        types: types
+      inbook.data.friends = {
+        genders: genders
       };
 
-      inbook.bus.trigger("data:posts:types:ready");
+      inbook.bus.trigger("data:friends:genders:ready");
     });
 
     it("should remove the spinner", function() {
@@ -91,21 +94,21 @@ describe("TypesGraphView", function() {
 
       describe("for the x function", function() {
         it("should return the label", function() {
-          expect(x(types[0])).toEqual("status");
-          expect(x(types[1])).toEqual("photo");
+          expect(x(genders[0])).toEqual("male");
+          expect(x(genders[1])).toEqual("female");
         });
       });
 
       describe("for the y function", function() {
         it("should return the values", function() {
-          expect(y(types[0])).toEqual(3);
-          expect(y(types[1])).toEqual(4);
+          expect(y(genders[0])).toEqual(30);
+          expect(y(genders[1])).toEqual(40);
         });
       });
 
       it("should pass the data", function() {
         expect(select.datum).toHaveBeenCalledWith(
-          [{key: " ", values: types}]
+          [{key: " ", values: genders}]
         );
       });
 

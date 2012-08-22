@@ -1,12 +1,11 @@
 inbook.views.WhoGraphView = (function() {
-  var template = JST["inbook/templates/graphs/types"];
+  var template = JST["inbook/templates/graphs/base"];
 
   return Backbone.View.extend({
     initialize: function() {
       _.bindAll(this, "ready");
 
       inbook.bus.on("data:posts:who:ready", this.ready);
-
       this.render();
     },
 

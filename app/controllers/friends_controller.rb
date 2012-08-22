@@ -1,7 +1,6 @@
 class FriendsController < ApplicationController
 
   def index
-    user = current_user
     dstart, dend = parse_dates
 
     respond_to do |type|
@@ -9,7 +8,8 @@ class FriendsController < ApplicationController
         render json: {
           count: user.friends.count,
           added: FriendPresenter.from_array(user.friends.added(dstart, dend)),
-          subtracted: FriendPresenter.from_array(user.friends.subtracted(dstart, dend))
+          subtracted: FriendPresenter.from_array(user.friends.subtracted(dstart, dend)),
+          breakdown: gender
         }, status: 200
       }
     end
@@ -22,5 +22,15 @@ class FriendsController < ApplicationController
     e = (params[:start] && params[:end] && Time.parse(params[:end])) || Time.now
 
     [s, e].sort
+  end
+
+  def gender
+    [:male, :female].each_with_object({}) do |type, hash|
+      hash[type] = user.friends.where(gender: type).count
+    end
+  end
+
+  def user
+    @user ||= current_user
   end
 end

@@ -1,11 +1,11 @@
-inbook.views.TypesGraphView = (function() {
+inbook.views.GenderGraphView = (function() {
   var template = JST["inbook/templates/graphs/base"];
 
   return Backbone.View.extend({
     initialize: function() {
       _.bindAll(this, "render", "ready");
 
-      inbook.bus.on("data:posts:types:ready", this.ready);
+      inbook.bus.on("data:friends:genders:ready", this.ready);
       this.render();
     },
 
@@ -14,21 +14,22 @@ inbook.views.TypesGraphView = (function() {
     },
 
     ready: function() {
+      console.log("ready");
       this.$el.find(".spinner").addClass("hidden");
 
       nv.addGraph(function() {
         var chart = nv.models.pieChart()
           .x(function(data) { return data.label })
           .y(function(data) { return data.value })
+          .color(["#08789D", "#DF2882"])
           .showLabels(true);
 
-        d3.select("#types svg")
-          .datum([{key: " ", values: inbook.data.posts.types}])
+        d3.select("#genders svg")
+          .datum([{key: " ", values: inbook.data.friends.genders}])
           .transition().duration(1200)
           .call(chart);
 
         return chart;
-
       });
     }
   });

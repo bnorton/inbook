@@ -16,7 +16,8 @@ describe FriendsController do
       end
 
       before do
-        @add = FactoryGirl.create(:friend, :user => user, :added_at => 5.days.ago)
+        @initial_import = FactoryGirl.create(:friend, :user => user, :added_at => nil)
+        @add = FactoryGirl.create(:friend, :user => user, :added_at => 5.days.ago, :gender => 'male')
         @sub = FactoryGirl.create(:friend, :user => user, :subtracted_at => 4.days.ago)
       end
 
@@ -30,9 +31,10 @@ describe FriendsController do
         make_request
 
         response.body.should == {
-          'count' => 2,
+          'count' => 3,
           'added' => FriendPresenter.from_array([@add]),
-          'subtracted' => FriendPresenter.from_array([@sub])
+          'subtracted' => FriendPresenter.from_array([@sub]),
+          'breakdown' => {'male' => 1, 'female' => 2}
         }.to_json
       end
 
@@ -43,8 +45,23 @@ describe FriendsController do
           end
 
           @subtracted = [10.days.ago, Time.now].collect do |time|
-            FactoryGirl.create(:friend, :user => user, :subtracted_at => time)
+            FactoryGirl.create(:friend, :user => user, :subtracted_at => time, :gender => 'male')
           end
+        end
+
+        it "should have the proper count" do
+          make_request
+
+          JSON.parse(response.body)['count'].should == 8
+        end
+
+        it "should have the proper breakdown" do
+          make_request
+
+          JSON.parse(response.body)['breakdown'].should == {
+            'male' => 3,
+            'female' => 5
+          }
         end
 
         describe "for added users" do

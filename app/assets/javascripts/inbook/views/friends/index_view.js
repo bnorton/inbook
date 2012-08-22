@@ -6,10 +6,13 @@ inbook.views.FriendsIndexView = (function() {
       _.bindAll(this, "render");
 
       inbook.bus.on("data:friends:ready", this.render);
+      this.render();
     },
 
     render: function() {
       this.$el.html(template({friends: inbook.data.friends}));
+
+      new inbook.views.GenderGraphView({el: "#genders"});
     }
   })
 }());

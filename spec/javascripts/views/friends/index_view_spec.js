@@ -19,11 +19,25 @@ describe("FriendsIndexView", function() {
 
   describe("#render", function() {
     beforeEach(function() {
+      spyOn(inbook.views, "GenderGraphView");
+
       view.render();
     });
 
-    it("should render the friends count", function() {
-      expect(view.$el.find(".count").text()).toEqual("540")
+    it("should render the friends total count", function() {
+      expect(view.$el.find(".count .total").text()).toEqual("540")
+    });
+
+    it("should render the friends added count", function() {
+      expect(view.$el.find(".count .added").text()).toEqual("2")
+    });
+
+    it("should render the friends subtracted count", function() {
+      expect(view.$el.find(".count .subtracted").text()).toEqual("1")
+    });
+
+    it("should render a gender graph view", function() {
+      expect(inbook.views.GenderGraphView).toHaveBeenCalledWith({el: "#genders"});
     });
 
     describe("for the added section", function() {

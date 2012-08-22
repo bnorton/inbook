@@ -97,8 +97,8 @@ describe User do
 
       it "should fetch friends" do
         Friends.should_receive(:perform_async) do |*args|
-          unless args.first == subject.reload.id
-            raise RSpec::Mocks::MockExpectationError.new("Must call Friends with the user's id")
+          unless args.first == subject.reload.id && args.second == {initial_import: true}
+            raise RSpec::Mocks::MockExpectationError.new("Must call Friends with the user's id and the initial import hash")
           end
         end
 

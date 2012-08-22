@@ -1,17 +1,24 @@
-<div class="count"><%= friends.count %></div>
+<div class="inner"></div>
+<div class="container">
+  <div class="count">
+    <div class="total"><%= friends.count %></div>
+    <div class="added">+ <%= friends.added && friends.added.length %></div>
+    <div class="subtracted">- <%= friends.subtracted && friends.subtracted.length %></div>
+  </div>
+  <div id="genders"></div>
+  <div id="added">
+    <% _(friends.added).each(function(friend) { %>
+      <a href="<%= friend.link %>" target="_blank">
+        <img src="<%= inbook.models.User.profileImage(friend.graph_id) %>" title="<%= friend.name %>" />
+      </a>
+    <% }) %>
+  </div>
 
-<div id="added">
-  <% _(friends.added).each(function(friend) { %>
-    <a href="<%= friend.link %>" target="_blank">
-      <img src="<%= inbook.models.User.profileImage(friend.graph_id) %>" title="<%= friend.name %>" />
-    </a>
-  <% }) %>
-</div>
-
-<div id="subtracted">
-  <% _(friends.subtracted).each(function(friend) { %>
-    <a href="<%= friend.link %>" target="_blank">
-      <img src="<%= inbook.models.User.profileImage(friend.graph_id) %>" title="<%= friend.name %>" />
-    </a>
-  <% }) %>
+  <div id="subtracted">
+    <% _(friends.subtracted).each(function(friend) { %>
+      <a href="<%= friend.link %>" target="_blank">
+        <img src="<%= inbook.models.User.profileImage(friend.graph_id) %>" title="<%= friend.name %>" />
+      </a>
+    <% }) %>
+  </div>
 </div>

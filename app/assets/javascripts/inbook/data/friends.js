@@ -17,6 +17,8 @@ inbook.data.FriendsDataConnector = function() {
             inbook.data.friends = _(data).clone();
 
             inbook.bus.trigger("data:friends:ready");
+
+            genders();
           });
       };
 
@@ -25,5 +27,20 @@ inbook.data.FriendsDataConnector = function() {
   return {
     fetch: fetch,
     setDate: setDate
+  };
+
+  function genders() {
+    var breakdown = _(inbook.data.friends.breakdown).clone();
+
+    inbook.data.friends.genders = _(_(breakdown).
+      keys()).
+      map(function(gender) {
+        return {
+          label: gender,
+          value: breakdown[gender]
+        };
+      });
+
+    inbook.bus.trigger("data:friends:genders:ready");
   }
 };

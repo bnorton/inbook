@@ -4,9 +4,8 @@ class Friend < ActiveRecord::Base
   belongs_to :user
 
   def self.create_batch(hashes)
-    added_at = Time.now
     friends = hashes.collect do |hash|
-      build_from_hash(hash.merge('added_at' => added_at))
+      build_from_hash(hash)
     end
 
     import friends, validate: true
