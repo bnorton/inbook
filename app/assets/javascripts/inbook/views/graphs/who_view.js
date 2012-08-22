@@ -27,7 +27,7 @@ inbook.views.WhoGraphView = (function() {
 
         d3.select("#who svg")
           .datum([{key: "", values: inbook.data.posts.who}])
-          .transition().duration(500)
+          .transition().duration(0)
           .call(chart);
 
         return chart;

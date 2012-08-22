@@ -6,7 +6,7 @@ describe("ApplicationRouter", function() {
   });
 
   describe("#routes", function() {
-    it("should have dashboard", function() {
+    it("should have /dashboard", function() {
       expect(router.routes["!/dashboard"]).toEqual("dashboard");
     });
 
@@ -14,12 +14,20 @@ describe("ApplicationRouter", function() {
       expect(router.routes["!dashboard"]).toEqual("dashboard");
     });
 
-    it("should have dashboard/friends", function() {
-      expect(router.routes["!/dashboard/friends"]).toEqual("friends");
+    it("should have /friends", function() {
+      expect(router.routes["!/friends"]).toEqual("friends");
     });
 
-    it("should have dashboard", function() {
-      expect(router.routes["!dashboard/friends"]).toEqual("friends");
+    it("should have friends", function() {
+      expect(router.routes["!friends"]).toEqual("friends");
+    });
+
+    it("should have /logout", function() {
+      expect(router.routes["!/logout"]).toEqual("logout");
+    });
+
+    it("should have logout", function() {
+      expect(router.routes["!logout"]).toEqual("logout");
     });
   });
 
@@ -33,12 +41,6 @@ describe("ApplicationRouter", function() {
       router.dashboard();
 
       expect(inbook.views.DashboardIndexView).toHaveBeenCalled();
-    });
-
-    it("should create a navigation view", function() {
-      router.dashboard();
-
-      expect(inbook.views.UsersNavigationView).toHaveBeenCalled();
     });
 
     describe("#graphs", function() {
@@ -83,7 +85,7 @@ describe("ApplicationRouter", function() {
 
     describe("for the data connection", function() {
       beforeEach(function() {
-        inbook.currentUser = new inbook.models.User()
+        inbook.currentUser = new inbook.models.User();
       });
 
       describe("when the user is a free user", function() {
@@ -116,6 +118,8 @@ describe("ApplicationRouter", function() {
 
   describe("#friends", function() {
     beforeEach(function() {
+      inbook.currentUser = new inbook.models.User();
+
       spyOn(inbook.views, "FriendsIndexView");
       spyOn(inbook.data, "FriendsDataConnector");
 
@@ -128,6 +132,41 @@ describe("ApplicationRouter", function() {
 
     it("should user the friends data connector", function() {
       expect(inbook.data.FriendsDataConnector).toHaveBeenCalled();
+    });
+  });
+
+  describe("#logout", function() {
+    var request;
+
+    beforeEach(function() {
+      inbook.currentUser = new inbook.models.User({id: 4});
+      spyOn(inbook.utils, "navigate");
+
+      router.logout();
+
+      request = mostRecentAjaxRequest();
+    });
+
+    it("should destroy the users session", function() {
+      expect(request.method).toEqual("DELETE");
+      expect(request.url).toEqual("/users/4.json");
+    });
+
+    it("should not route", function() {
+      expect(inbook.utils.navigate).not.toHaveBeenCalled();
+    });
+
+    describe("on success", function() {
+      beforeEach(function() {
+        request.response({
+          status: 200,
+          responseText: '{}'
+        });
+      });
+
+      it("should route to the index", function() {
+        expect(inbook.utils.navigate).toHaveBeenCalledWith("/");
+      });
     });
   });
 });

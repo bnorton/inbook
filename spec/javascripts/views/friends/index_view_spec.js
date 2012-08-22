@@ -29,11 +29,11 @@ describe("FriendsIndexView", function() {
     });
 
     it("should render the friends added count", function() {
-      expect(view.$el.find(".count .added").text()).toEqual("2")
+      expect(view.$el.find(".count .added").text()).toEqual("+ 2")
     });
 
     it("should render the friends subtracted count", function() {
-      expect(view.$el.find(".count .subtracted").text()).toEqual("1")
+      expect(view.$el.find(".count .subtracted").text()).toEqual("- 1")
     });
 
     it("should render a gender graph view", function() {

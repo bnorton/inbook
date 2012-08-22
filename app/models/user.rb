@@ -52,7 +52,10 @@ class User < ActiveRecord::Base
   end
 
   def seed
-    [[ExtendAccessToken, []], [FacebookPosts, []], [Friends, [initial_import: true]]].each do |(fetcher, args)|
+    [[ExtendAccessToken, []],
+     [FacebookPosts, []],
+     [Friends, [initial_import: true]]
+    ].each do |(fetcher, args)|
       fetcher.perform_async(id, *args)
     end
   end

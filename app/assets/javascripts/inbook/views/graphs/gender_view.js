@@ -14,7 +14,6 @@ inbook.views.GenderGraphView = (function() {
     },
 
     ready: function() {
-      console.log("ready");
       this.$el.find(".spinner").addClass("hidden");
 
       nv.addGraph(function() {
@@ -26,7 +25,7 @@ inbook.views.GenderGraphView = (function() {
 
         d3.select("#genders svg")
           .datum([{key: " ", values: inbook.data.friends.genders}])
-          .transition().duration(1200)
+          .transition().duration(0)
           .call(chart);
 
         return chart;

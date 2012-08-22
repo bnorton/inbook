@@ -25,7 +25,7 @@ class UsersController < ApplicationController
 
   private
 
-  def respond_with_json(user=nil)
+  def respond_with_json(user = nil)
     respond_to {|type|
       type.json {
         render json: user || UserPresenter.new(@user), status: @status || 200

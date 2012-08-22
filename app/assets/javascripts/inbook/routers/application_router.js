@@ -1,10 +1,14 @@
 inbook.routers.ApplicationRouter = (function() {
+  var once = true;
+
   return Backbone.Router.extend({
     routes: {
       "!/dashboard": "dashboard",
       "!dashboard": "dashboard",
-      "!/dashboard/friends": "friends",
-      "!dashboard/friends": "friends"
+      "!/friends": "friends",
+      "!friends": "friends",
+      "!/logout": "logout",
+      "!logout": "logout"
     },
 
     dashboard: function() {
@@ -31,10 +35,22 @@ inbook.routers.ApplicationRouter = (function() {
       new inbook.views.FriendsIndexView({el: "#dashboard"});
 
       common();
+    },
+
+    logout: function() {
+      inbook.currentUser.destroy({
+        success: function() {
+          inbook.utils.navigate("/");
+        }
+      });
     }
   });
 
   function common() {
-    new inbook.views.UsersNavigationView({el: "#user-nav", model: inbook.currentUser});
+    if(once) {
+      new inbook.views.UsersNavigationView({el: "#user-nav", model: inbook.currentUser});
+
+      once = false;
+    }
   }
 }());

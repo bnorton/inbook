@@ -1,10 +1,14 @@
 <div id="user-inner">
-  <img src="<%= user.profileImage("square") %>" />
+  <div class="small-image">
+    <img src="<%= user.profileImage("square") %>" />
+  </div>
   <div class="name"><%= user.get("name") %></div>
   <div class="dropdown hidden">
     <div class="items">
       <div class="item" data-type="account"></div>
       <div class="item" data-type="settings"></div>
+      <div class="item" data-type="dashboard"></div>
+      <div class="item" data-type="friends"></div>
       <div class="item" data-type="logout"></div>
     </div>
   </div>

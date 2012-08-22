@@ -6,6 +6,8 @@ en:
     navigation:
       account: "Account"
       settings: "Settings"
+      dashboard: "Dashboard"
+      friends: "Friends"
       logout: "Logout"
   sessions:
     new:

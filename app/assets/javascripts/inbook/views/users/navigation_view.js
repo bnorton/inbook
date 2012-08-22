@@ -8,7 +8,13 @@ inbook.views.UsersNavigationView = (function() {
     },
 
     initialize: function() {
-      this.render();
+      var that = this;
+
+      that.render();
+
+      $('body').on('click', function() {
+        that.$el.find(".dropdown").addClass("hidden");
+      });
     },
 
     render: function() {
@@ -17,12 +23,16 @@ inbook.views.UsersNavigationView = (function() {
       attachItems(this.$el);
     },
 
-    toggleDropdown: function() {
+    toggleDropdown: function(e) {
+      if(e) e.stopPropagation();
+
       this.$el.find(".dropdown").toggleClass("hidden");
     },
 
     dropdown: function(e) {
-      Backbone.history.navigate("/#!/" + $(e.currentTarget).data("type"));
+      Backbone.history.navigate("/#!/" + $(e.currentTarget).data("type"), {trigger: true});
+
+      this.toggleDropdown();
     }
   });
 

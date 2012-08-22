@@ -24,7 +24,7 @@ inbook.views.TypesGraphView = (function() {
 
         d3.select("#types svg")
           .datum([{key: " ", values: inbook.data.posts.types}])
-          .transition().duration(1200)
+          .transition().duration(0)
           .call(chart);
 
         return chart;
