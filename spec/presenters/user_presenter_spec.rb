@@ -11,6 +11,7 @@ describe UserPresenter do
         "graph_id" => user.graph_id,
         "access_token" => user.access_token,
         "name" => user.name,
+        "link" => user.link,
         "username" => user.username,
         "updated_time" => user.updated_time,
         "paid" => user.paid
@@ -29,6 +30,7 @@ describe UserPresenter do
           "id" => user.id,
           "graph_id" => user.graph_id,
           "name" => user.name,
+          "link" => user.link,
           "username" => user.username
         }
       end

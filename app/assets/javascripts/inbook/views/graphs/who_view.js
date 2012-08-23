@@ -1,5 +1,5 @@
 inbook.views.WhoGraphView = (function() {
-  var template = JST["inbook/templates/graphs/base"];
+  var template = JST["inbook/templates/graphs/who"];
 
   return Backbone.View.extend({
     initialize: function() {
@@ -20,6 +20,8 @@ inbook.views.WhoGraphView = (function() {
         var chart = nv.models.multiBarHorizontalChart()
           .x(function(data) { return data.label })
           .y(function(data) { return data.value })
+          .margin({top: 30, right: 20, bottom: 15, left: 140})
+          .stacked(true)
           .showValues(true);
 
         chart.yAxis
@@ -27,7 +29,7 @@ inbook.views.WhoGraphView = (function() {
 
         d3.select("#who svg")
           .datum([{key: "", values: inbook.data.posts.who}])
-          .transition().duration(0)
+          .transition().duration(300)
           .call(chart);
 
         return chart;

@@ -16,17 +16,17 @@ describe("DashboardsIndexView", function() {
 
   it("should render the posts", function() {
     expect(view.$el.find("#posts h2").text()).toMatch(I18n.t("dashboards.index.posts.title"));
-    expect(view.$el.find("#posts p:first").text()).toMatch(I18n.t("dashboards.index.posts.description"));
+    expect(view.$el.find("#posts").attr("title")).toEqual(I18n.t("dashboards.index.posts.description"));
   });
 
   it("should render the comments", function() {
     expect(view.$el.find("#comments h2").text()).toMatch(I18n.t("dashboards.index.comments.title"));
-    expect(view.$el.find("#comments p:first").text()).toMatch(I18n.t("dashboards.index.comments.description"));
+    expect(view.$el.find("#comments").attr("title")).toEqual(I18n.t("dashboards.index.comments.description"));
   });
 
   it("should render the likes", function() {
     expect(view.$el.find("#likes h2").text()).toMatch(I18n.t("dashboards.index.likes.title"));
-    expect(view.$el.find("#likes p:first").text()).toMatch(I18n.t("dashboards.index.likes.description"));
+    expect(view.$el.find("#likes").attr("title")).toEqual(I18n.t("dashboards.index.likes.description"));
   });
 
   it("should render the posts count", function() {

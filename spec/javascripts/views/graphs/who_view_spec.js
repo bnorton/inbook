@@ -14,11 +14,15 @@ describe("TypesGraphView", function() {
           x = c; return {
             y: function(c) {
               y = c; return {
-                showValues: function(){
-                  return {
-                    yAxis: { tickFormat: function(){} }
-                  }
-                }
+                margin: function() { return {
+                  stacked: function() { return {
+                    showValues: function(){
+                      return {
+                        yAxis: { tickFormat: function(){} }
+                      }
+                    }
+                  }}
+                }}
               }
             }
           }

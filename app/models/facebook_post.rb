@@ -43,15 +43,7 @@ class FacebookPost < ActiveRecord::Base
 
   def self.from_for(user)
     ActiveRecord::Base.connection.select_all(
-      "SELECT
-        author_name as name,
-        author_graph_id as graph_id,
-        COUNT(*) as count
-      FROM facebook_posts
-        WHERE user_id = #{user.id}
-        GROUP BY author_graph_id
-        ORDER BY COUNT(*) DESC
-      LIMIT 11"
+      "SELECT COUNT(*) AS count, author_name AS name, author_graph_id AS graph_id FROM facebook_posts WHERE user_id = #{user.id} GROUP BY author_graph_id ORDER BY count DESC LIMIT 11"
     ).reject {|u| u['graph_id'] == user.graph_id }
   end
 end

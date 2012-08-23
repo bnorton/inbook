@@ -2,7 +2,9 @@
 <div class="container">
   <div id="user">
     <div id="info">
-      <img src="<%= user.profileImage() %>" />
+      <a href="<%= user.get("link") %>" target="_blank">
+        <img src="<%= user.profileImage() %>" />
+      </a>
       <h4 class="name"><%= user.get("name") %></h4>
       <% if(user.get("updated_time")) { %>
         <h4 class="since"><%= I18n.t("dashboards.index.last_update")%><%= I18n.l("date.formats.human", user.get("updated_time")) %></h4>
@@ -18,20 +20,17 @@
 
   <div id="stats">
     <div class="stat-outer">
-      <div id="posts" class="stat posts">
+      <div id="posts" class="stat posts" title="<%= I18n.t("dashboards.index.posts.description") %>">
         <h4 class="count">0</h4>
         <h2><%= I18n.t("dashboards.index.posts.title") %></h2>
-        <p><%= I18n.t("dashboards.index.posts.description") %></p>
       </div>
-      <div id="likes" class="stat likes">
+      <div id="likes" class="stat likes" title="<%= I18n.t("dashboards.index.likes.description") %>">
         <h4 class="count">0</h4>
         <h2><%= I18n.t("dashboards.index.likes.title") %></h2>
-        <p><%= I18n.t("dashboards.index.likes.description") %></p>
       </div>
-      <div id="comments" class="stat comments">
+      <div id="comments" class="stat comments" title="<%= I18n.t("dashboards.index.comments.description") %>">
         <h4 class="count">0</h4>
         <h2><%= I18n.t("dashboards.index.comments.title") %></h2>
-        <p><%= I18n.t("dashboards.index.comments.description") %></p>
       </div>
     </div>
     <div class="clear"></div>

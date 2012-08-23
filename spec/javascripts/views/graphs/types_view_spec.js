@@ -13,7 +13,11 @@ describe("TypesGraphView", function() {
         x: function(c) {
           x = c; return {
             y: function(c) { y = c; return {
-              showLabels: function() {}
+              margin: function() { return {
+                color: function() { return {
+                  showLabels: function() {}
+                }}
+              }}
             }}
           }
         }

@@ -6,12 +6,13 @@
 
 #stats {
   .stat-outer {
-    height: 130px;
+    height: 125px;
     margin-top: 15px;
+    margin-left: 10px;
 
     .stat {
       float: left;
-      width: 310px;
+      width: 300px;
       margin-right: 15px;
 
       &:last-child {
@@ -20,6 +21,7 @@
 
       h2 {
         font-size: 30px;
+        margin-top: 22px;
       }
 
       p {
@@ -28,7 +30,7 @@
 
       h4 {
         float: left;
-        font-size: 55px;
+        font-size: 65px;
         margin-right: 12px;
       }
     }
@@ -42,7 +44,6 @@
 
 .border {
   position: absolute;
-  min-height: 1407px;
   z-index: -1;
   width: 100%;
   height: 100%;
@@ -55,7 +56,7 @@
 
 #user {
   h4 {
-    font-size: 22px;
+    font-size: 27px;
     margin-top: 10px;
 
     &.since {
@@ -66,6 +67,17 @@
   img {
     float: left;
     margin-right: 15px;
+    margin-left: 10px;
     height: 130px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+  }
+}
+
+#dashboard {
+  #types {
+    width: 1040px;
+    margin: auto;
   }
 }
