@@ -1,7 +1,7 @@
 class CountsController < ApplicationController
-  def index
-    authorize!
+  before_filter :authorize!
 
+  def index
     respond_to do |type|
       type.json {
         render json: CountsPresenter.new(current_user), status: :ok

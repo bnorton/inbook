@@ -10,4 +10,5 @@ beforeEach(function() {
 
   inbook.data.counts = {};
   inbook.data.posts = {};
+  inbook.data.series = { posts: {}, likes: {}, comments: {}};
 });

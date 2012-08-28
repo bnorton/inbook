@@ -33,6 +33,10 @@ class User < ActiveRecord::Base
     write_attribute(:password, Digest::SHA2.hexdigest(passworp + salt))
   end
 
+  def series(type)
+    self.class.series_for(id, type)
+  end
+
   private
 
   def unique_graph_id
@@ -52,15 +56,23 @@ class User < ActiveRecord::Base
   end
 
   def seed
-    [[ExtendAccessToken, []],
-     [FacebookPosts, []],
-     [Friends, [initial_import: true]]
-    ].each do |(fetcher, args)|
-      fetcher.perform_async(id, *args)
+    [ExtendAccessToken, FacebookPosts, Friends].each do |fetcher|
+      fetcher.perform_async(id, initial_import: true)
     end
   end
 
   def welcome
     Email.perform_async(:welcome, id, password: new_password)
+  end
+
+  def self.series_for(id, type=:posts)
+    ActiveRecord::Base.connection.select_all(
+      "SELECT COUNT(*) AS value, YEAR(created_time) as year, WEEK(created_time) as week FROM facebook_#{type} WHERE user_id = #{id} GROUP BY year, week"
+    ).each_with_object({}) do |count, memo|
+      group = Time.parse("01/01/#{count['year']}")
+      since = count['week'].weeks.since(group).utc.beginning_of_day.iso8601
+
+      memo[since] = count['value']
+    end
   end
 end

@@ -4,6 +4,7 @@
 //= require i18n/translations
 //= require underscore
 //= require backbone
+//= require highcharts
 //= require d3.v2
 //= require nv.d3
 //= require inbook

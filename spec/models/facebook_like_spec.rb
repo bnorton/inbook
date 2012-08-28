@@ -11,7 +11,8 @@ describe FacebookLike do
   def create_like(id)
     {
       'id' => "113#{id}",
-      'name' => "MarkP#{id}"
+      'name' => "MarkP#{id}",
+      'created_time' => "2012-08-25T18:30:32Z"
     }
   end
 
@@ -23,6 +24,7 @@ describe FacebookLike do
         like.graph_id.should == "1133"
         like.name.should == "MarkP3"
         like.user.should == user
+        like.created_time.should == Time.parse("2012-08-25T18:30:32Z")
       end
     end
   end

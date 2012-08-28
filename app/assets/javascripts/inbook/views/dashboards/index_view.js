@@ -11,18 +11,25 @@ inbook.views.DashboardIndexView = (function() {
     },
 
     render: function() {
-      this.$el.html(template({user: this.model}));
+      this.$el.html(template({user: this.model.toJSON(), image: this.model.profileImage()}));
+      new inbook.views.UserDetailView({el: this.$el.find("#user"), model: this.model}).render();
+
+      showCharts();
     },
 
     updateCounts: function() {
-      var counts = inbook.data.counts,
-          $posts = this.$el.find("#posts .count"),
-          $comments = this.$el.find("#comments .count"),
-          $likes = this.$el.find("#likes .count");
+      var that = this,
+          counts = inbook.data.counts;
 
-      $posts.html(counts.posts.count);
-      $comments.html(counts.comments.count);
-      $likes.html(counts.likes.count);
+      _(["posts", "likes", "comments"]).each(function(type) {
+        that.$el.find(".count." + type).html(counts[type].count);
+      });
     }
   });
+
+  function showCharts() {
+    _(["posts", "likes", "comments"]).each(function(type) {
+      new inbook.views.LineChartView({type: type, interval: "month"});
+    });
+  }
 }());

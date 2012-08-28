@@ -3,6 +3,7 @@ Inbook::Application.routes.draw do
     member do
       resources :counts, only: [:index]
       resources :friends, only: [:index]
+      resources :series, only: [:index]
     end
   end
 

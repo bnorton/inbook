@@ -1,41 +1,42 @@
 <div class="inner"></div>
 <div class="container">
-  <div id="user">
-    <div id="info">
-      <a href="<%= user.get("link") %>" target="_blank">
-        <img src="<%= user.profileImage() %>" />
-      </a>
-      <h4 class="name"><%= user.get("name") %></h4>
-      <% if(user.get("updated_time")) { %>
-        <h4 class="since"><%= I18n.t("dashboards.index.last_update")%><%= I18n.l("date.formats.human", user.get("updated_time")) %></h4>
-      <% } %>
-    </div>
-  </div>
+  <div id="user"></div>
 
   <div id="more-info" class="right">
     <h2><%= I18n.t("dashboards.index.more.title") %></h2>
-    <h4><%= I18n.t("dashboards.index.more.description") %></h4>
   </div>
   <div class="clear"></div>
 
   <div id="stats">
-    <div class="stat-outer">
-      <div id="posts" class="stat posts" title="<%= I18n.t("dashboards.index.posts.description") %>">
-        <h4 class="count">0</h4>
-        <h2><%= I18n.t("dashboards.index.posts.title") %></h2>
-      </div>
-      <div id="likes" class="stat likes" title="<%= I18n.t("dashboards.index.likes.description") %>">
-        <h4 class="count">0</h4>
-        <h2><%= I18n.t("dashboards.index.likes.title") %></h2>
-      </div>
-      <div id="comments" class="stat comments" title="<%= I18n.t("dashboards.index.comments.description") %>">
-        <h4 class="count">0</h4>
-        <h2><%= I18n.t("dashboards.index.comments.title") %></h2>
-      </div>
+    <div class="section-header lifetime"><%= I18n.t("dashboards.index.lifetime") %><span class="description"><%= I18n.t("dashboards.index.lifetime_description") %></span></div>
+    <div class="section most stat-outer">
+      <table class="full">
+        <tr>
+          <th title="<%= I18n.t("dashboards.index.posts.description") %>"><%= I18n.t("dashboards.index.posts.title") %></th>
+          <th title="<%= I18n.t("dashboards.index.likes.description") %>"><%= I18n.t("dashboards.index.likes.title") %></th>
+          <th title="<%= I18n.t("dashboards.index.comments.description") %>"><%= I18n.t("dashboards.index.comments.title") %></th>
+        </tr>
+        <tr>
+          <td class="count posts">0</td>
+          <td class="count likes">0</td>
+          <td class="count comments">0</td>
+        </tr>
+        <tr>
+          <% _(["posts", "likes", "comments"]).each(function(type) { %>
+            <td><div id="<%= type %>" class="chart" style="width: 220px; height: 115px;"></div></td>
+        <% }) %>
+        </tr>
+      </table>
     </div>
     <div class="clear"></div>
-    <div class="border"></div>
   </div>
 </div>
-<div id="types"></div>
-<div id="who"></div>
+
+<div class="section">
+  <div class="left half">
+    <div id="types"></div>
+  </div>
+  <div class="half">
+    <div id="who"></div>
+  </div>
+</div>

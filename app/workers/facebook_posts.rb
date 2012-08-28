@@ -1,7 +1,7 @@
 class FacebookPosts
   include Sidekiq::Worker
 
-  def perform(user_id)
+  def perform(user_id, options={})
     api = (user = User.find(user_id)) && Koala::Facebook::API.new(user.access_token)
 
     messages = (options = {

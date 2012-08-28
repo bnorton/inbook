@@ -1,7 +1,7 @@
 class FriendsMetadata
   include Sidekiq::Worker
 
-  def perform(user_id)
+  def perform(user_id, options={})
     api = (user = User.find(user_id)) && Koala::Facebook::API.new(user.access_token)
 
     friends = []
@@ -14,12 +14,14 @@ class FriendsMetadata
     end
 
     friends.each do |friend|
-      data = friend.slice(*%w(gender link))
+      data = friend.slice(*%w(gender link birthday locale))
 
-      data.merge!(
-        location_id: friend["location"]["id"],
-        location_name: friend["location"]["name"]
-      ) if friend["location"].present?
+      %w(location language).each do |type|
+        data.merge!(
+          "#{type}_id" => friend[type]["id"],
+          "#{type}_name" => friend[type]["name"]
+        ) if friend[type].present?
+      end
 
       user.friends.where(
         graph_id: friend["id"]

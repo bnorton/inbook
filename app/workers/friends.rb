@@ -10,7 +10,7 @@ class Friends
       user.friends.create_batch(friends)
 
       subtracted = user.friends.graph_ids - friends.collect {|friend| friend["id"]}
-      user.friends.where(:graph_id => subtracted).update_all(:subtracted_at => Time.now)
+      user.friends.where(:graph_id => subtracted, :subtracted_at => nil).update_all(:subtracted_at => Time.now)
 
       FriendsMetadata.perform_async(user_id)
     end

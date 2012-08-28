@@ -1,7 +1,7 @@
 class ExtendAccessToken
   include Sidekiq::Worker
 
-  def perform(user_id)
+  def perform(user_id, options={})
     User.find(user_id).tap do |user|
 
       user.update_attributes(

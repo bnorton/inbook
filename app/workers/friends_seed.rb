@@ -6,7 +6,7 @@ class FriendsSeed
     perform_at(Time.now.end_of_hour)
   end
 
-  def perform
+  def perform(options={})
     User.select(:id).paid.each do |user|
       Friends.perform_async(user.id)
     end

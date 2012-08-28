@@ -1,5 +1,5 @@
 class FacebookLike < ActiveRecord::Base
-  attr_accessible :name, :user, :graph_id
+  attr_accessible :name, :user, :graph_id, :created_time
 
   belongs_to :user
   belongs_to :facebook_post
@@ -15,7 +15,7 @@ class FacebookLike < ActiveRecord::Base
 
   def self.build_from_hash(hash, user)
     new(
-      hash.slice(*%w(name)).merge(
+      hash.slice(*%w(name created_time)).merge(
         user: user,
         graph_id: hash["id"]
       )

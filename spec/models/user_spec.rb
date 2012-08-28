@@ -69,8 +69,8 @@ describe User do
 
       it "should extend the token" do
         ExtendAccessToken.should_receive(:perform_async) do |*args|
-          unless args.first == subject.reload.id
-            raise RSpec::Mocks::MockExpectationError.new("Must call ExtendAccessToken with the user's id'")
+          unless args.first == subject.reload.id && args.second == {initial_import: true}
+            raise RSpec::Mocks::MockExpectationError.new("Must call ExtendAccessToken with the user's id and the initial import hash")
           end
         end
 
@@ -87,8 +87,8 @@ describe User do
 
       it "should fetch the feed" do
         FacebookPosts.should_receive(:perform_async) do |*args|
-          unless args.first == subject.reload.id
-            raise RSpec::Mocks::MockExpectationError.new("Must call FacebookPosts with the user's id")
+          unless args.first == subject.reload.id && args.second == {initial_import: true}
+            raise RSpec::Mocks::MockExpectationError.new("Must call FacebookPosts with the user's id and the initial import hash")
           end
         end
 

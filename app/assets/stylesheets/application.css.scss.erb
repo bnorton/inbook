@@ -24,10 +24,10 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 }
 
 body {
-  background-color: whiteSmoke;
+  background: repeat url('<%= asset_path "bg.png" %>') ;
 }
 
-h4, h2, p {
+h4, h2, p, th, td, div, span {
   color: #404040;
   font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
 }
@@ -45,7 +45,7 @@ h4, h2, p {
 }
 
 .inner {
-  margin-top: 60px;
+  margin-top: 58px;
 }
 
 .clear {
@@ -65,6 +65,26 @@ h4, h2, p {
   float: left;
 }
 
+.full {
+  width: 100%;
+}
+
+.half {
+  width: 50%;
+}
+
+.third {
+  width: 33.33%;
+}
+
+.quarter {
+  width: 25%;
+}
+
+.most {
+  width: 75%;
+}
+
 #nav {
   width: 100%;
   position: fixed;
@@ -72,9 +92,9 @@ h4, h2, p {
   top: 0;
   height: 40px;
   background: #555;
-  background-image: -webkit-linear-gradient(#666,#333 50px);
-  background-image: -moz-linear-gradient(#666,#333 50px);
-  box-shadow: 0 0 15px #333;
+  background-image: -webkit-linear-gradient(#666, #333 40px);
+  background-image: -moz-linear-gradient(#666, #333 40px);
+  box-shadow: 0 0 20px #333;
 
   .container {
     max-width: 960px;
@@ -83,14 +103,18 @@ h4, h2, p {
   }
 
   #logo {
+    margin-top: 4px;
     padding: 8px 0 0 8px;
     font-weight: 300;
     float: left;
     color: #f9f9f9;
 
     a {
-      margin: -2px 0 0 0;
+      margin: -7px 0 0 0;
       font-size: 24px;
+      float: left;
+      width: 170px;
+      height: 30px;
     }
   }
 
@@ -98,6 +122,7 @@ h4, h2, p {
     text-decoration: none;
     color: #ededed;
     float: left;
+    text-shadow: 1px 2px #333;
   }
 
   .right {
@@ -119,30 +144,38 @@ h4, h2, p {
 
       .small-image {
         float: left;
-        width: 40px;
+        width: 31px;
+        margin-top: 3px;
 
         img {
-          width: 35px;
-          margin-left: -40px;
-          -webkit-border-radius: 5px;
+          width: 29px;
+          margin-left: -32px;
           border-radius: 5px;
+          -webkit-border-radius: 5px;
           -moz-border-radius: 5px;
+          box-shadow: 0px 1px 4px 2px #333;
         }
       }
     }
 
     .name {
       float: left;
-      margin: 6px 0 0 -35px;
+      margin: 6px 0 0 -27px;
       padding: 0 8px 0 4px;
       color: #ededed;
       font-size: 20px;
-      min-height: 35px;
+      max-height: 25px;
       cursor: pointer;
+      max-width: 147px;
+      word-wrap: break-word;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      text-shadow: 1px 2px #333;
     }
 
     .dropdown {
-      margin-top: 38px;
+      margin-top: -3px;
       background-color: #333;
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
@@ -151,8 +184,15 @@ h4, h2, p {
       -moz-border-bottom-left-radius: 5px;
       -moz-border-bottom-right-radius: 5px;
 
+      background-image: -webkit-linear-gradient(#333, #444 70px);
+      background-image: -moz-linear-gradient(#333, #444 70px);
+
       .items {
         margin-left: 10px;
+
+        .spacer {
+          height: 54px;
+        }
 
         .item {
           cursor: pointer;
@@ -173,4 +213,17 @@ h4, h2, p {
 .container {
   width: 960px;
   margin: auto;
+}
+
+$section-border: 7px;
+$section-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+
+.section {
+  background: whiteSmoke;
+  -webkit-border-radius: $section-border;
+  -moz-border-radius: $section-border;
+  border-radius: $section-border;
+  -webkit-box-shadow: $section-shadow;
+  -moz-box-shadow: $section-shadow;
+  box-shadow: $section-shadow;
 }

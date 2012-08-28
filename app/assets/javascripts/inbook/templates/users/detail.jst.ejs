@@ -1,0 +1,14 @@
+<div id="info">
+  <a href="<%= user.link %>" title="<%= user.name %>" target="_blank">
+    <img src="<%= image %>" />
+  </a>
+  <h4 class="name"><%= user.name %></h4>
+  <% if(user.location_name) { %>
+    <h4 class="location"><%= user.location_name %></h4>
+  <% } %>
+  <% if(user.updated_time) { %>
+    <h4 class="since">
+      <%= I18n.t("dashboards.index.last_update")%><%= I18n.l("date.formats.human", user.updated_time) %>
+    </h4>
+  <% } %>
+</div>

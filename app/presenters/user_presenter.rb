@@ -1,5 +1,5 @@
 class UserPresenter
-  ATTRIBUTES = %w(id graph_id access_token name link username updated_time paid).freeze
+  ATTRIBUTES = %w(id graph_id access_token name link username location_name updated_time paid).freeze
   PUBLIC = %w(id graph_id name link username).freeze
 
  def initialize(user)

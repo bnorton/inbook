@@ -105,12 +105,17 @@ describe("ApplicationRouter", function() {
         beforeEach(function() {
           spyOn(inbook.currentUser, "free").andReturn(false);
           spyOn(inbook.data, "SocialDataConnector");
+          spyOn(inbook.data, "SeriesData");
 
           router.dashboard();
         });
 
         it("should user the social data connector", function() {
           expect(inbook.data.SocialDataConnector).toHaveBeenCalled();
+        });
+
+        it("should user the series data connector", function() {
+          expect(inbook.data.SeriesData).toHaveBeenCalled();
         });
       });
     });

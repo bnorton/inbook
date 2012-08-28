@@ -25,6 +25,7 @@ inbook.routers.ApplicationRouter = (function() {
         new inbook.data.FacebookDataConnector();
       } else {
         new inbook.data.SocialDataConnector();
+        new inbook.data.SeriesData();
       }
 
       common();

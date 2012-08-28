@@ -15,8 +15,14 @@ describe FriendsMetadata do
           'id' => "loc#{id}",
           'name' => "San Francisco #{id}"
         },
+        'language' => {
+          'id' => "lang#{id}",
+          'name' => "English"
+        },
         'gender' => (id % 2).zero? ? "male" : "female",
-        'link' => "http://#{id}.com"
+        'birthday' => "0#{id}/1987",
+        'link' => "http://#{id}.com",
+        'locale' => "EN#{id}"
       }
     end
 
@@ -62,12 +68,22 @@ describe FriendsMetadata do
       @friends.collect(&:location_name).should == ["San Francisco 1", "San Francisco 2"]
     end
 
+    it "should store the language" do
+      perform
+      @friends.map(&:reload)
+
+      @friends.collect(&:language_id).should == ["lang1", "lang2"]
+      @friends.collect(&:language_name).uniq.should == ["English"]
+    end
+
     it "should store other metadata" do
       perform
       @friends.map(&:reload)
 
       @friends.collect(&:gender).should == ["female", "male"]
       @friends.collect(&:link).should == ["http://1.com", "http://2.com"]
+      @friends.collect(&:locale).should == ["EN1", "EN2"]
+      @friends.collect(&:birthday).should == ["01/1987", "02/1987"]
     end
   end
 end

@@ -39,13 +39,14 @@ en:
         number_of_posts: "# of Posts"
       more:
         title: "Want more?"
-        description: "For a dashboard that tracks metrics over time see our plans..."
       last_update: "Last Post: "
+      lifetime: "Lifetime"
+      lifetime_description: "Your timeline simplified"
   navigation:
     about: "About"
     dashboard: "Dashboard"
     more: "Track over Time?"
-    ana_book: "Social Analytics"
+    redwood_social: "Redwood Social"
   date:
     formats:
       short: "%-m/%-d/%y"

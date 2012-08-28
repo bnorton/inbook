@@ -10,7 +10,12 @@ inbook = {
     posts: {},
     comments: {},
     likes: {},
-    friends: {}
+    friends: {},
+    series: {
+      posts: { week: {} },
+      likes: { week: {} },
+      comments: { week: {} }
+    }
   },
   collections: {},
   models: {},
@@ -21,7 +26,7 @@ inbook = {
   utils: {},
   routers: {},
   settings: {
-    permissions: {scope: "read_stream, read_requests, email, user_status, user_likes, user_photos, user_videos, user_location, user_relationships, user_likes, friends_location, friends_relationships, friends_likes"},
+    permissions: {scope: "read_stream, read_requests, email, user_status, user_likes, user_photos, user_videos, user_location, user_relationships, user_likes, user_birthday, friends_location, friends_relationships, friends_likes, friends_birthday"},
     _ready: {},
     ready: function() { return !!inbook.settings._ready.facebook; }
   }

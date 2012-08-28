@@ -5,7 +5,7 @@ describe FacebookLikes do
     let(:user) { FactoryGirl.create(:user) }
 
     def perform
-      FacebookLikes.new.perform(user.id)
+      FacebookLikes.new.perform(user.id, 'initial_import' => true)
     end
 
     def create_like(id)
@@ -82,7 +82,19 @@ describe FacebookLikes do
         @messages.last.facebook_likes.count.should == 1
       end
 
+      it "should have a external created time of the parent message" do
+        perform
+        likes = FacebookLike.last(3)
+
+        @messages.map(&:reload)
+        likes.collect(&:created_time).map(&:to_s).uniq.should == [@messages.first.created_time, @messages.last.created_time].map(&:to_s)
+      end
+
       describe "when new likes are added externally" do
+        def perform
+          FacebookLikes.new.perform(user.id)
+        end
+
         before do
           perform
 
@@ -108,6 +120,15 @@ describe FacebookLikes do
           likes = FacebookLike.last(2)
 
           likes.collect(&:facebook_post).uniq.should == [@messages.first]
+        end
+
+        it "should have a created time of the parent message" do
+          Timecop.freeze(DateTime.now) do
+            perform
+            likes = FacebookLike.last(2)
+
+            likes.collect(&:created_time).uniq.should == [Time.now]
+          end
         end
       end
     end

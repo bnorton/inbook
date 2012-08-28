@@ -13,6 +13,7 @@ describe UserPresenter do
         "name" => user.name,
         "link" => user.link,
         "username" => user.username,
+        "location_name" => user.location_name,
         "updated_time" => user.updated_time,
         "paid" => user.paid
       }
