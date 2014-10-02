@@ -1,8 +1,0 @@
-development: &development
-  id: "400008186714615"
-  secret: "3ac0eef56cdc58f4685b7b0aa5afc2c1"
-test:
-  <<: *development
-demo:
-  id: "338080429613023"
-  secret: "e4c4d66abc1462a3f567a3ce9fcad273"
